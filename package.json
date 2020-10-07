@@ -4,6 +4,7 @@
   "description": "Sistema de monitoreo de pedidos Fotocopiadora CEI",
   "main": "index.js",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1"
   },
