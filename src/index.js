@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Routes from './routes/Routes';
+import Root from './Root';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Routes />
+    <Root />
   </React.StrictMode>,
   document.getElementById('root')
 );

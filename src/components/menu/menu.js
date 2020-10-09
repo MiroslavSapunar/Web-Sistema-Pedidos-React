@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 
-class E404 extends Component {
+export default class Menu extends Component{
     render(){
         return (
             <div>
-                <h1>404</h1>
+                <h1>Menu</h1>
             </div>
         );
     }
 }
-
-export default E404;
