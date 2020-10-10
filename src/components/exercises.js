@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { withRouter } from "react-router-dom"
 import axios from 'axios';
+
+const BASE_URL = process.env.REACT_APP_API_URL;
+const COMP_URL = '/exercises/';
 
 const Exercise = props => (
 
@@ -9,7 +11,7 @@ const Exercise = props => (
         <td>{props.exercise.username}</td>
         <td>{props.exercise.description}</td>
         <td>{props.exercise.duration}</td>
-        <td>{props.exercise.date.substring(0,10)}</td>
+        <td>{props.exercise.date.substring(0,24)}</td>
         <td>
             <Link to={"/edit/"+props.exercise._id}>edit</Link> |  <a href="#" onClick={() => { props.deleteExercise(props.exercise._id)}}>delete</a>
         </td>
@@ -26,7 +28,7 @@ export default class ExercisesList extends Component{
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/exercises/')
+        axios.get( BASE_URL + COMP_URL)
             .then(response => {
                 this.setState({ exercises: response.data })
             })
@@ -36,7 +38,7 @@ export default class ExercisesList extends Component{
     }
 
     deleteExercise(id) {
-        axios.delete('http://localhost:5000/exercises/' + id)
+        axios.delete( BASE_URL + COMP_URL + id)
             .then(response => console.log(response.data));
         this.setState({
             exercises: this.state.exercises.filter(el => el._id !== id)
