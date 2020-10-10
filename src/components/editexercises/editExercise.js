@@ -3,8 +3,7 @@ import DatePicker from 'react-datepicker';
 import axios from 'axios';
 import "react-datepicker/dist/react-datepicker.css";
 
-export default class CreateExercise extends Component{
-    
+export default class EditExercise extends Component{
     constructor(props) {
         super(props);
         
@@ -23,17 +22,29 @@ export default class CreateExercise extends Component{
         }
     }
  
-    componentDidMount() {
-        axios.get('http://localhost:5000/users')
+    componentDidMount() {        
+        axios.get('http://localhost:5000/exercises/'+this.props.match.params.id)
+            .then(console.log(this))
+            .then(response => {
+                this.setState({
+                    username: response.data.username,
+                    description: response.data.description,
+                    duration: response.data.duration,
+                    date: new Date(response.data.date)
+                })
+            })
+            .catch(function (error) {
+                console.log('error ejercicio' + error )
+            })
+
+        axios.get('http://localhost:5000/users/')
             .then(response => {
                 if(response.data.length > 0) {
                     this.setState({
-                        users: response.data.map(user => user.username),
-                        username: response.data[0].username
+                        users: response.data.map(user => user.username)
                     })
                 }
-            }
-        )
+            })        
     }
 
     onChangeUsername(e) {
@@ -65,7 +76,6 @@ export default class CreateExercise extends Component{
     }
 
     onSubmit(e) {
-
         e.preventDefault();
 
         const exercise = {
@@ -77,7 +87,7 @@ export default class CreateExercise extends Component{
 
         console.log(exercise);
         
-        axios.post('http://localhost:5000/exercises/add', exercise)
+        axios.post('http://localhost:5000/exercises/update/'+this.props.match.params.id, exercise)
             .then(res => {
                 console.log(res.data);
             })
@@ -89,10 +99,10 @@ export default class CreateExercise extends Component{
     render(){
         return (
             <div>
-                <h3>Create new exercise</h3>
+                <h3>Edit exercise</h3>
                 <form onSubmit={this.onSubmit}>
                     <div className='form-group' >
-                        <select ref="userInput"
+                        <select ref="userImput"
                             required
                             className="form-control"
                             value={this.state.username}
@@ -136,7 +146,7 @@ export default class CreateExercise extends Component{
                     </div>
 
                     <div className='form-group'>
-                        <input type="Submit" value="crear ejercicio" className="btn btn-primary" action="Root.js"/>
+                        <input type="Submit" value="editar ejercicio" className="btn btn-primary"/>
                     </div>
                 </form>
             </div>

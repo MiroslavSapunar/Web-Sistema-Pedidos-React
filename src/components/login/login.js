@@ -16,9 +16,9 @@ export default class Login extends Component {
 
                 <h2 className="text-center mt-2 mb-3">Bienvenid@</h2>
                 <Form className = 'login-form'>                
-                    <input type="username" id="inputUsername" class="form-control mb-1" placeholder="Nombre de usuario" required="" autofocus=""/>
-                    <input type="password" id="inputPassword" class="form-control mb-1" placeholder="Contraseña" required=""/>
-                    <div class="checkbox mt-3 mb-2">
+                    <input type="username" id="inputUsername" className="form-control mb-1" placeholder="Nombre de usuario" required="" autoFocus=""/>
+                    <input type="password" id="inputPassword" className="form-control mb-1" placeholder="Contraseña" required=""/>
+                    <div className="checkbox mt-3 mb-2">
                         <label>
                             <input type="checkbox" value="remember-me"/> Remember me
                         </label>
