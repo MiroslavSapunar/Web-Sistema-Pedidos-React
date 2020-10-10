@@ -21,7 +21,7 @@ export default class Routes extends Component {
           <Route path="/menu" component= {Menu}/>
           <Route path="/exercises" component= {Exercises}/>
           <Route path="/createexercise" component= {CreateExercise}/>
-          <Route path="/edit" component= {EditExercise}/>
+          <Route path="/edit/:id" component= {EditExercise}/>
           <Route path="/createuser" component= {CreateUser}/>
           <Route component= {E404}/>
         </Switch>
