@@ -7,26 +7,29 @@ import Exercises from './components/exercises';
 import Navbar from './components/NavBar';
 import CreateExercise from './components/createExercise';
 import CreateUser from './components/createUser';
+import CreateOrder from './components/createOrder';
 import EditExercise from './components/editExercise';
 import Bottom from './components/BottomBar';
+import { Container } from 'react-bootstrap';
 
 export default class Routes extends Component {
   render(){
     return (
       <Router>
         <Navbar />
-        <div className="container-lg">
-        <Switch>
-          <Route exact path="/" component= {Login}/>
-          <Route path="/menu" component= {Menu}/>
-          <Route path="/exercises" component= {Exercises}/>
-          <Route path="/createexercise" component= {CreateExercise}/>
-          <Route path="/edit/:id" component= {EditExercise}/>
-          <Route path="/createuser" component= {CreateUser}/>
-          <Route component= {E404}/>
-        </Switch>
-        <Bottom />
-        </div>
+        <Container fluid='md' className="min-vw-100">
+            <Switch>
+              <Route exact path="/" component= {Login}/>
+              <Route path="/menu" component= {Menu}/>
+              <Route path="/exercises" component= {Exercises}/>
+              <Route path="/createexercise" component= {CreateExercise}/>
+              <Route path="/edit/:id" component= {EditExercise}/>
+              <Route path="/createuser" component= {CreateUser}/>
+              <Route path="/crearpedido" component= {CreateOrder}/>
+              <Route component= {E404}/>
+            </Switch>
+        </Container>
+        <Bottom /> 
       </Router>
     );
   }

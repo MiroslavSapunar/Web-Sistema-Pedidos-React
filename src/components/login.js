@@ -5,8 +5,8 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div className = "container w-75 p-2 align-self-center">
-                <h3 className='text-center mt-3 text-center'>
+            <div className = "container w-75 h-50 align-self-center">
+                <h3 className='text-center mt-5 text-center'>
                     sistema de monitoreo pedidos online
                 </h3>
                 <h1 className='text-center mb-3 font-weight-bold'>

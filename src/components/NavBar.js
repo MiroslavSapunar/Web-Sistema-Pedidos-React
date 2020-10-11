@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { Navbar } from 'react-bootstrap';
 
-export default class Navbar extends Component {
+export default class NavBar extends Component {
 
     render() {
         return (
-            <nav className='navbar navbar-dark bg-dark navbar-expand-lg nav-fill w-100'>
-                    <Link to='/' className='navbar-brand'>ExcerTracker</Link>
-                    <div className='collapse navbar-collapse'>
+            <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
+                    <Link to='/' className='navbar-brand'>INICIO</Link>
+
                     <ul className='navbar-nav mr-auto'>
                         <li className='nav-item'>
                             <Link to='/exercises' className='nav-link'>Exercises</Link>    
@@ -19,8 +20,8 @@ export default class Navbar extends Component {
                             <Link to='/createuser' className='nav-link'>Create User</Link>    
                         </li>
                     </ul>    
-                    </div>
-            </nav>
+
+            </Navbar>
         );
     }
 }
