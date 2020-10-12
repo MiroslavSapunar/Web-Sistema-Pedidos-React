@@ -9,7 +9,7 @@ import CreateExercise from './components/createExercise';
 import CreateUser from './components/createUser';
 import CreateOrder from './components/createOrder';
 import EditExercise from './components/editExercise';
-import Bottom from './components/BottomBar';
+import ConfirmOrder from './components/confirmOrder';
 import { Container } from 'react-bootstrap';
 
 export default class Routes extends Component {
@@ -26,10 +26,10 @@ export default class Routes extends Component {
               <Route path="/edit/:id" component= {EditExercise}/>
               <Route path="/createuser" component= {CreateUser}/>
               <Route path="/crearpedido" component= {CreateOrder}/>
+              <Route path="/confirmarpedido" component= {ConfirmOrder}/>
               <Route component= {E404}/>
             </Switch>
         </Container>
-        <Bottom /> 
       </Router>
     );
   }
