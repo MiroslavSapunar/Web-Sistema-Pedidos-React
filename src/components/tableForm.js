@@ -67,7 +67,7 @@ export default class TableForm extends Component {
         return (
             <Container className='w-75 align-self-center mt-3 mb-5'>
                 <Table striped bordered hover size="sm">
-                    <thead>
+                    <thead className="thead-dark">
                         <tr>
                             <th>N° Pedido</th>
                             <th>ID</th>

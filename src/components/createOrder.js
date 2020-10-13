@@ -172,8 +172,13 @@ export default class CreateOrder extends Component {
 
     }
 
-    deleteWork(){
-
+    deleteWork(id){
+        axios.delete( 'http://localhost:5000/trabajos/' + id)
+            .then(response => console.log(response.data));
+        this.setState({
+            id_works: this.state.id_works.filter(el => el !== id),
+            works: this.state.works.filter(el => el._id !== id)
+        });
     }
 
     recWork(id_work) {

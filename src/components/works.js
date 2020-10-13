@@ -16,7 +16,7 @@ const Work = props => (
         <td>{props.work.terminacion}</td>
         <td>{props.work.linkDrive}</td>
         <td>{props.work.id_worker}</td>
-        <td>{props.work.estado}</td>
+        <td class="bg-warning">{props.work.estado}</td>
         <td>
             <a href="#" onClick={() => { props.reportar(props.work._id)}}>Reportar</a> | <a href="#" onClick={() => { props.tomar(props.work._id)}}>Tomar</a> | <a href="#" onClick={() => { props.terminar(props.work._id)}}>Terminar</a>
         </td>
