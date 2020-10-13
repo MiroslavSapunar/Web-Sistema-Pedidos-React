@@ -1,76 +1,87 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Col, Container, Row, Form, Button } from 'react-bootstrap';
+import { Col, Container, Row, Form, Button} from 'react-bootstrap';
+import TableForm from './tableForm';
 
 
 export default class CreateOrder extends Component {
 
     constructor(props) {
         super(props);
-        
+
         this.onChangeValue = this.onChangeValue.bind(this);
         this.submitContact = this.submitContact.bind(this);
         this.editContact = this.editContact.bind(this);
         this.submitWork = this.submitWork.bind(this);
         this.submitOrder = this.submitOrder.bind(this);
+        this.recWork = this.recWork.bind(this);
+        this.deleteWork = this.deleteWork.bind(this);
+
 
         this.state = {
             id_contact: '',
             id_works: [],
             total: '',
             id_reception: '',
-            id_worker:'',
-            estado:'',
-            numeroPedido:'',
-            contactNotSend:'',
-            workNotSend:'',
-            
-            nombre:'',
-            email:'',
-            telefono:'',
-            direccion:'',
-            timbre:'',
-            dni:'',
+            estado: '',
+            numeroPedido: '',
 
-            linkDrive:'',
-            faz:'',
-            paginasPDF:'',
-            paginasCarilla:'',
-            margen:'',
-            terminacion:'',
-            divisorFaz:''
+            contactNotSend: '',
+            workNotSend: '',
+            numeroTrabajo: '',
+            works:'',
+
+            nombre: '',
+            email: '',
+            telefono: '',
+            direccion: '',
+            timbre: '',
+            dni: '',
+
+            linkDrive: '',
+            faz: '',
+            paginasPDF: '',
+            paginasCarilla: '',
+            margen: '',
+            terminacion: '',
+            divisorFaz: '',
+            id_worker: '',
+            estadoTrabajo:'',
         }
     }
 
     componentDidMount() {
         this.setState({
-            faz:"Simple",
-            divisorFaz:"1",
-            margen:"Largo",
-            paginasCarilla:"1",
-            terminacion:"Sin Terminacion",
-            id_reception:"Aun no implementado",
-            id_worker:"Aun no implementado",
-            numeroPedido:"Aun no implementado",
+            works: [],
+            numeroTrabajo: '1',
+            faz: "Simple",
+            divisorFaz: "1",
+            margen: "Largo",
+            paginasCarilla: "1",
+            terminacion: "Sin Terminacion",
+            id_reception: "Aun no implementado",
+            id_worker: "Sin Asignar",
+            numeroPedido: "Aun no implementado",
             estado: "No Iniciado",
             total: "No impementado",
-            contactNotSend:true,
-            workNotSend:true
+            contactNotSend: true,
+            workNotSend: true,
+            estadoTrabajo:"No Iniciado"
         })
     }
 
-    onChangeValue= event => {
+    onChangeValue = event => {
         const { name, value } = event.target;
         this.setState({
-          [name]:value
-         })
+            [name]: value
+        })
         console.log(event.target.value)
     }
 
     submitContact(e) {
-    
+
         e.preventDefault();
-        
+
         const contacto = {
             nombre: this.state.nombre,
             email: this.state.email,
@@ -79,27 +90,27 @@ export default class CreateOrder extends Component {
             timbre: this.state.timbre,
             dni: this.state.dni,
         }
-        
-        console.log(contacto);
-        
-        axios.post('http://localhost:5000/contactos/add', contacto)
-        .then(res => {
-            console.log(res.data);
-            this.setState({
-                id_contact: res.data
-            });
-            console.log(this.state);
 
-        })
-        .catch(err => {
-            console.log(err);
-        });
+        //console.log(contacto);
+
+        axios.post('http://localhost:5000/contactos/add', contacto)
+            .then(res => {
+                //console.log(res.data);
+                this.setState({
+                    id_contact: res.data
+                });
+                //console.log(this.state);
+
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     editContact(e) {
 
         e.preventDefault();
-        
+
         const contacto = {
             nombre: this.state.nombre,
             email: this.state.email,
@@ -108,63 +119,82 @@ export default class CreateOrder extends Component {
             timbre: this.state.timbre,
             dni: this.state.dni,
         }
-        
-        console.log(contacto);
-        
-        axios.post('http://localhost:5000/contactos/update/'+this.state.id_contact, contacto)
-        .then(res => {
-            console.log(res.data);
-            this.setState({
-                id_contact: res.data,
-                contactNotSend:false
-            });
-            console.log(this.state);
 
-        })
-        .catch(err => {
-            console.log(err);
-        });
+        console.log(contacto);
+
+        axios.post('http://localhost:5000/contactos/update/' + this.state.id_contact, contacto)
+            .then(res => {
+                //console.log(res.data);
+                this.setState({
+                    id_contact: res.data,
+                    contactNotSend: false
+                });
+                //console.log(this.state);
+
+            })
+            .catch(err => {
+                console.log(err);
+            });
 
     }
 
     submitWork(e) {
-    
+
         e.preventDefault();
-        console.log(this.state);
 
         const trabajo = {
+            numeroTrabajo: this.state.numeroTrabajo,
             linkDrive: this.state.linkDrive,
             faz: this.state.faz,
             paginasPDF: this.state.paginasPDF,
             paginasCarilla: this.state.paginasCarilla,
             margen: this.state.margen,
             terminacion: this.state.terminacion,
+            id_worker: this.state.id_worker,
+            estado:this.state.estadoTrabajo,
         }
-        
-        console.log(trabajo);
-        
+
+
         axios.post('http://localhost:5000/trabajos/add', trabajo)
-        .then(res => {
-            console.log(res.data);
-            
-            var joined = this.state.id_works.concat(res.data);
-            this.setState({
-                id_works: joined,
-                workNotSend:false
+            .then(res => {
+
+                var joined = this.state.id_works.concat(res.data);
+                this.setState({
+                    id_works: joined,
+                    workNotSend: false,
+                    numeroTrabajo: Number(this.state.numeroTrabajo) + 1,
+                })
+                this.recWork(res.data)
             })
-            
-            console.log(this.state);
-            
-        })
-        .catch(err => {
-            console.log(err);
-        });
+            .catch(err => {
+                console.log(err);
+            });
+
     }
 
+    deleteWork(){
+
+    }
+
+    recWork(id_work) {
+        axios.get('http://localhost:5000/trabajos/' + id_work)
+        .then(res => {
+            
+                var joint = this.state.works.concat(res.data)
+                this.setState({
+                    works: joint,
+                })
+                console.log("LArgo works: " + this.state.works.length)
+                console.log(this.state.works);
+            })    
+            .catch(err => {
+                console.log(err);
+            });
+    }   
+        
     submitOrder(e) {
 
     }
-
 
     render() {
         return (
@@ -178,48 +208,48 @@ export default class CreateOrder extends Component {
                                 <Form.Group as={Row} controlId="formNombre">
                                     <Form.Label column xs="2">Nombre</Form.Label>
                                     <Col sm="10">
-                                        <Form.Control name='nombre' placeholder="Nombre" required onChange={this.onChangeValue}/>
+                                        <Form.Control name='nombre' placeholder="Nombre" required onChange={this.onChangeValue} />
                                     </Col>
                                 </Form.Group>
 
                                 <Form.Group as={Row} controlId="formEmail">
                                     <Form.Label column xs="2">Email</Form.Label>
                                     <Col sm="10">
-                                        <Form.Control name = 'email' type="email" placeholder="ejemplo@email.com" required onChange={this.onChangeValue} />
+                                        <Form.Control name='email' type="email" placeholder="ejemplo@email.com" required onChange={this.onChangeValue} />
                                     </Col>
                                 </Form.Group>
 
                                 <Form.Row>
                                     <Form.Group as={Col} sm="9" controlId="formDireccion">
                                         <Form.Label>Dirección</Form.Label>
-                                        <Form.Control name = 'direccion' placeholder="Av Paseo Colon 850" required  onChange={this.onChangeValue}/>
+                                        <Form.Control name='direccion' placeholder="Av Paseo Colon 850" required onChange={this.onChangeValue} />
                                     </Form.Group>
 
                                     <Form.Group as={Col} sm="3" controlId="formTimbre">
                                         <Form.Label>Timbre</Form.Label>
-                                        <Form.Control name = 'timbre' placeholder="Aula 203" required onChange={this.onChangeValue} />
+                                        <Form.Control name='timbre' placeholder="Aula 203" required onChange={this.onChangeValue} />
                                     </Form.Group>
                                 </Form.Row>
 
                                 <Form.Group as={Row} controlId="formTelefono">
                                     <Form.Label column xs="2">Telefono</Form.Label>
                                     <Col sm="10">
-                                        <Form.Control type="number" name = 'telefono' placeholder="11 2233 4455" required onChange={this.onChangeValue}/>
+                                        <Form.Control type="number" name='telefono' placeholder="11 2233 4455" required onChange={this.onChangeValue} />
                                     </Col>
                                 </Form.Group>
 
                                 <Form.Group as={Row} controlId="formDni">
                                     <Form.Label column xs="2">Dni</Form.Label>
                                     <Col sm="10">
-                                        <Form.Control type="number" name = 'dni' placeholder="Dni para la entrega" required onChange={this.onChangeValue} />
+                                        <Form.Control type="number" name='dni' placeholder="Dni para la entrega" required onChange={this.onChangeValue} />
                                     </Col>
                                 </Form.Group>
                                 <Row>
-                                <Col></Col>
-                                <Button variant="primary" type='Submit' disabled={this.state.id_contact}>Guardar Contacto</Button>
-                                <Col></Col>
-                                <Button variant="primary" type='Submit' onClick={this.editContact} disabled={!this.state.id_contact}>Editar Contacto</Button>
-                                <Col></Col>
+                                    <Col></Col>
+                                    <Button variant="primary" type='Submit' disabled={this.state.id_contact}>Guardar Contacto</Button>
+                                    <Col></Col>
+                                    <Button variant="primary" type='Submit' onClick={this.editContact} disabled={!this.state.id_contact}>Editar Contacto</Button>
+                                    <Col></Col>
                                 </Row>
                             </Form>
                         </Row>
@@ -229,7 +259,7 @@ export default class CreateOrder extends Component {
                                 <Form.Group as={Row} controlId="formLink">
                                     <Form.Label column xs="2">Link archivo</Form.Label>
                                     <Col sm="10">
-                                        <Form.Control name ='linkDrive' placeholder="https://drive.google.com/ejemplo" required onChange={this.onChangeValue}/>
+                                        <Form.Control name='linkDrive' placeholder="https://drive.google.com/ejemplo" required onChange={this.onChangeValue} />
                                     </Col>
                                 </Form.Group>
                                 <Form.Row>
@@ -257,7 +287,7 @@ export default class CreateOrder extends Component {
                                 <Form.Row>
                                     <Form.Group as={Col} controlId="formMargen">
                                         <Form.Label>Margen</Form.Label>
-                                        <Form.Control name='margen'as="select" required defaultValue="Largo" onChange={this.onChangeValue}>
+                                        <Form.Control name='margen' as="select" required defaultValue="Largo" onChange={this.onChangeValue}>
                                             <option>Largo</option>
                                             <option>Corto</option>
                                         </Form.Control>
@@ -272,10 +302,13 @@ export default class CreateOrder extends Component {
                                         </Form.Control>
                                     </Form.Group>
                                 </Form.Row>
-                                    <Button variant="primary" type="submit" >Agregar Impresion</Button>
+                                <Button variant="primary" type="submit" >Agregar Impresion</Button>
                             </Form>
                         </Row>
-                        <Button className=" mt-5 mb-5" block variant="dark" size="lg" type="submit" disabled={this.state.contactNotSend && this.state.workNotSend}>Registrar Pedido</Button>
+                        <Row>
+                            <TableForm works = {this.state.works} deleteWork ={this.deleteWork} />
+                        </Row>
+                        <Button className="mb-5" block variant="dark" size="lg" type="submit" disabled={this.state.contactNotSend && this.state.workNotSend}>Registrar Pedido</Button>
                     </Form>
                 </Col>
             </Container>

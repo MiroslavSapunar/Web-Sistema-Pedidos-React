@@ -4,6 +4,7 @@ import Login from'./components/login';
 import Menu from './components/menu';
 import E404 from './components/E404';
 import Exercises from './components/exercises';
+import Works from './components/works';
 import Navbar from './components/NavBar';
 import CreateExercise from './components/createExercise';
 import CreateUser from './components/createUser';
@@ -22,10 +23,11 @@ export default class Routes extends Component {
               <Route exact path="/" component= {Login}/>
               <Route path="/menu" component= {Menu}/>
               <Route path="/exercises" component= {Exercises}/>
+              <Route path="/trabajos" component= {Works}/>
               <Route path="/createexercise" component= {CreateExercise}/>
               <Route path="/edit/:id" component= {EditExercise}/>
               <Route path="/createuser" component= {CreateUser}/>
-              <Route path="/crearpedido" component= {CreateOrder}/>
+              <Route path="/crearPedido" component= {CreateOrder}/>
               <Route path="/confirmarpedido" component= {ConfirmOrder}/>
               <Route component= {E404}/>
             </Switch>
