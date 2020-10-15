@@ -1,26 +1,7 @@
 import React, { Component } from 'react';
-import { Container, Table, Button } from 'react-bootstrap';
-import axios from 'axios';
+import { Container, Table } from 'react-bootstrap';
 
-const BASE_URL = process.env.REACT_APP_API_URL;
-const COMP_URL = '/trabajos/';
-
-
-const Work = props => (
-
-    <tr>
-        <td>{props.counter}</td>
-        <td>{props.work._id}</td>
-        <td>{props.work.paginasPDF}</td>
-        <td>{props.work.faz}</td>
-        <td>{props.work.margen}</td>
-        <td>{props.work.terminacion}</td>
-        <td>{props.work.total}</td>
-        <dt>
-        <a href="#" onClick={() => { props.deleteWork(props.work._id)}}>Borrar</a>
-        </dt>
-    </tr>
-)
+import RowForm from './rowForm';
 
 export default class TableForm extends Component {
     
@@ -29,53 +10,66 @@ export default class TableForm extends Component {
         
         this.renderRows = this.renderRows.bind(this);
         this.deleteWork = this.deleteWork.bind(this);
-        this.deleteOnParent = props.deleteWork;
 
         this.state = {
             works: []
         }
     }
     
-    
-    componentWillReceiveProps(props){
+    componentDidMount(){
+        console.log("mount tabla");
         this.setState({
-            works: Array.from(this.props.works)
-        })
-        this.renderRows();
+            works: this.props.works
+        });
+        console.log(this.state.works);
     }
 
 
-    deleteWork(id) {
+    componentWillReceiveProps(props){
+        console.log("update tabla, supuestamente cambio proms");
+        this.setState({
+            works: props.works
+        })
+        console.log(this.state.works);
+    }
+
+    deleteWork(numeroTrabajo) {
+        /**
+         * 
+        
         axios.delete( BASE_URL + COMP_URL + id)
             .then(response => console.log(response.data));
         this.setState({
             works: this.state.works.filter(el => el._id !== id)
         });
-        this.deleteOnParent(id);
+         */
+        this.props.deleteWork(numeroTrabajo);
     }
 
     renderRows(){
-        console.log(this.state.works)
-        var counter = 0;
-        return this.state.works.map(currentWork => {
-            counter++;
-            return <Work work = {currentWork} deleteWork = {this.deleteWork} counter = {counter}/>;
+        //console.log(this.state.works);
+         return this.state.works.map((work, index) => {
+            return <RowForm workList = {work} deleteWork = {this.deleteWork} key = {work.numeroTrabajo} index = {index}/>;
         })
     }
 
     render() {
         return (
-            <Container className='w-75 align-self-center mt-3 mb-5'>
+            <Container className='w-100 align-self-center mt-3 mb-5'>
                 <Table striped bordered hover size="sm">
                     <thead className="thead-dark">
                         <tr>
                             <th>N° Pedido</th>
-                            <th>ID</th>
-                            <th>Pagina PDF</th>
+                            <th>link</th>
+                            <th>Paginas Pdf</th>
+                            <th>Pags X Carilla</th>
                             <th>Faz</th>
                             <th>Margen</th>
+                            <th>Hojas Impresas</th>
+                            <th>Costo Imp</th>
                             <th>Terminacion</th>
-                            <th>Subtotal</th>
+                            <th>Costo Anillado</th>
+                            <th>Total</th>
                             <th>Accion</th>
                         </tr>
                     </thead>
@@ -83,6 +77,7 @@ export default class TableForm extends Component {
                         {this.renderRows()}
                     </tbody>
                 </Table>
+                
             </Container>
         );
     }

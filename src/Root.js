@@ -1,17 +1,28 @@
 import React, { Component } from 'react';
+import { Container } from 'react-bootstrap';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+
+/**
+ * 
+ import CreateExercise from './components/createExercise';
+ import Exercises from './components/exercises';
+ import EditExercise from './components/editExercise';
+ import CreateUser from './components/createUser';
+              <Route path="/exercises" component= {Exercises}/>
+              <Route path="/createexercise" component= {CreateExercise}/>
+              <Route path="/edit/:id" component= {EditExercise}/>
+              <Route path="/createuser" component= {CreateUser}/>
+
+ */
+ 
 import Login from'./components/login';
 import Menu from './components/menu';
 import E404 from './components/E404';
-import Exercises from './components/exercises';
 import Works from './components/works';
 import Navbar from './components/NavBar';
-import CreateExercise from './components/createExercise';
-import CreateUser from './components/createUser';
 import CreateOrder from './components/createOrder';
-import EditExercise from './components/editExercise';
 import ConfirmOrder from './components/confirmOrder';
-import { Container } from 'react-bootstrap';
+import Orders from './components/orders';
 
 export default class Routes extends Component {
   render(){
@@ -22,13 +33,10 @@ export default class Routes extends Component {
             <Switch>
               <Route exact path="/" component= {Login}/>
               <Route path="/menu" component= {Menu}/>
-              <Route path="/exercises" component= {Exercises}/>
-              <Route path="/trabajos" component= {Works}/>
-              <Route path="/createexercise" component= {CreateExercise}/>
-              <Route path="/edit/:id" component= {EditExercise}/>
-              <Route path="/createuser" component= {CreateUser}/>
               <Route path="/crearPedido" component= {CreateOrder}/>
-              <Route path="/confirmarpedido" component= {ConfirmOrder}/>
+              <Route path="/confirmarpedido/:id" component= {ConfirmOrder}/>
+              <Route path="/pedidos" component= {Orders}/>
+              <Route path="/trabajos" component= {Works}/>
               <Route component= {E404}/>
             </Switch>
         </Container>

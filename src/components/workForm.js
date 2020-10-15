@@ -1,79 +1,206 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import { Col, Row, Form, Button} from 'react-bootstrap';
+import { Col, Row, Form, Button } from 'react-bootstrap';
 
-export default class WorkForm extends Component{
-    render(){
-        return(
-            <Form>
-                <Form.Group as={Row} controlId="formNombre">
-                    <Form.Label column xs="2">Nombre</Form.Label>
+export default class WorkForm extends Component {
+    
+    constructor(props) {
+        super(props);
+
+        this.onChangeValue = this.onChangeValue.bind(this);
+        this.calculatePrice = this.calculatePrice.bind(this);
+        this.submitWork = this.submitWork.bind(this);
+
+        this.state = {
+            id_pedido:'',
+            numeroTrabajo:0,
+            tamanioPapel:'',
+            linkDrive: '',
+            faz: '',
+            paginasPDF: '',
+            paginasCarilla:1,
+            margen: '',
+            terminacion: '',
+            id_worker: '',
+            estado:'',
+            costoImpresion: 0,
+            costoTerminacion: 0,
+            costoTotal: 0
+        }
+    }
+    
+    componentDidMount() {
+        this.setState({
+            id_pedido:'Sin Asignar',
+            numeroTrabajo: 0,
+            tamanioPapel:'A4',
+            linkDrive: '',
+            faz: 'Simple',
+            paginasPDF: '',
+            paginasCarilla:1,
+            margen: 'Largo',
+            terminacion: 'Sin Terminacion',
+            id_worker: 'Sin Asignar',
+            estado:'Sin Iniciar',
+            costoImpresion: 0,
+            costoTerminacion: 0,
+            costoTotal: 0
+        })
+
+    }
+
+    componentDidUpdate(){
+        console.log("se actualizo componente");
+        console.log(this.state);
+    }
+    
+    onChangeValue = event => {
+        const { name, value } = event.target;
+        this.setState({
+            [name]: value
+        })
+    }
+
+    calculatePrice(){
+
+        //console.log(this.state);
+
+
+        var subtotalImpresion = 0;
+        var subtotalTerminacion = 0;
+        var hojasImpresas = 0;
+
+        var paginasImpresas = Number(this.state.paginasPDF) / Number(this.state.paginasCarilla);
+
+        //console.log(paginasImpresas);
+        
+        if ((paginasImpresas % 1) !== 0){
+            paginasImpresas++;
+        }
+
+        if (this.state.faz === "Simple") {
+            subtotalImpresion = paginasImpresas * 2;
+            hojasImpresas = paginasImpresas;
+        } else {
+            subtotalImpresion = paginasImpresas * 1.5;
+            hojasImpresas = paginasImpresas / 2;
+        }
+
+        if(this.state.terminacion === "Anillado") {
+            subtotalTerminacion = (  Math.floor(hojasImpresas / 50) ) * 40;
+        }
+
+        return {
+            subtotalImpresion, 
+            subtotalTerminacion,
+            hojasImpresas,
+        }
+    }
+
+    submitWork(e) {
+        e.preventDefault();
+
+        const costos  = this.calculatePrice();
+
+        console.log(costos.subtotalImpresion);
+        console.log(costos.subtotalterminacion);
+
+        const trabajo = {
+            id_pedido: this.state.id_pedido,
+            numeroTrabajo: Number(this.state.numeroTrabajo) + 1,
+            tamanioPapel : this.state.tamanioPapel,
+            linkDrive: this.state.linkDrive,
+            faz: this.state.faz,
+            paginasPDF: Number(this.state.paginasPDF),
+            paginasCarilla: Number(this.state.paginasCarilla),
+            margen: this.state.margen,
+            terminacion: this.state.terminacion,
+            id_worker: this.state.id_worker,
+            estado:this.state.estado,
+            costoImpresion: costos.subtotalImpresion,
+            costoTerminacion: costos.subtotalTerminacion,
+            hojasImpresas: costos.hojasImpresas,
+            costoTotal: costos.subtotalImpresion + costos.subtotalTerminacion,
+        }
+
+        console.log(trabajo);
+        this.props.return(trabajo);
+        
+        this.setState( (state) => ({
+            numeroTrabajo : Number(state.numeroTrabajo) + 1
+        }));
+        /**
+         * 
+        
+        axios.post('http://localhost:5000/trabajos/add', trabajo)
+            .then(res => {
+
+                this.props.return(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+         */
+    }
+    
+    render() {
+        return (
+            <Form className="w-75" onSubmit={this.submitWork}>
+                <h3 className='mt-3 mb-2 w-75'>Datos y especificaciones impresiones</h3>
+                <Form.Group as={Row} controlId="formLink">
+                    <Form.Label column xs="2">Link archivo</Form.Label>
                     <Col sm="10">
-                        <Form.Control placeholder="Nombre"/>
+                        <Form.Control name='linkDrive' placeholder="https://drive.google.com/ejemplo" required onChange={this.onChangeValue} />
                     </Col>
                 </Form.Group>
-            
-                <Form.Group as={Row} controlId="formEmail">
-                    <Form.Label column xs="2">Email</Form.Label>
-                    <Col sm="10">
-                        <Form.Control type="email" placeholder="email@email.com"/>
-                    </Col>
-                </Form.Group>
-               
                 <Form.Row>
-                    <Form.Group as={Col} sm="9" controlId="formDireccion">
-                        <Form.Label>Dirección</Form.Label>
-                        <Form.Control placeholder="Av Paseo Colon 850" />
+                    <Form.Group as={Col} controlId="formPagPdf">
+                        <Form.Label>Paginas pdf</Form.Label>
+                        <Form.Control type="number" name='paginasPDF' required onChange={this.onChangeValue}>
+                        </Form.Control>
                     </Form.Group>
-
-                    <Form.Group as={Col} sm="3" controlId="formTimbre">
-                        <Form.Label>Timbre</Form.Label>
-                        <Form.Control placeholder="Aula 203" />
+                    <Form.Group as={Col} controlId="formTamanio">
+                        <Form.Label>Faz</Form.Label>
+                        <Form.Control name='tamanioPapel' as="select" required onChange={this.onChangeValue}>
+                            <option>A4</option>
+                            <option>Oficio</option>
+                            <option>A3</option>
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group as={Col} controlId="formFaz">
+                        <Form.Label>Faz</Form.Label>
+                        <Form.Control name='faz' as="select" required onChange={this.onChangeValue}>
+                            <option>Simple</option>
+                            <option>Doble</option>
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group as={Col} controlId="formPagCara">
+                        <Form.Label>Paginas por carrilla</Form.Label>
+                        <Form.Control name='paginasCarilla' as="select" required onChange={this.onChangeValue}>
+                            <option>{1}</option>
+                            <option>{2}</option>
+                            <option>{4}</option>
+                        </Form.Control>
                     </Form.Group>
                 </Form.Row>
-
-                <Form.Group as={Row} controlId="formTelefono">
-                    <Form.Label column xs="2">Telefono</Form.Label>
-                    <Col sm="10">
-                        <Form.Control placeholder="11 2233 4455"/>
-                    </Col>
-                </Form.Group>
-
-                <Form.Group as={Row} controlId="formDni">
-                    <Form.Label column xs="2">Dni</Form.Label>
-                    <Col sm="10">
-                        <Form.Control type="email" placeholder="Dni para la entrega"/>
-                    </Col>
-                </Form.Group>
-
-
                 <Form.Row>
-                    <Form.Group as={Col} controlId="formGridCity">
-                        <Form.Label>City</Form.Label>
-                        <Form.Control />
-                    </Form.Group>
-
-                    <Form.Group as={Col} controlId="formGridState">
-                        <Form.Label>State</Form.Label>
-                        <Form.Control as="select" defaultValue="Choose...">
-                        <option>Choose...</option>
-                        <option>...</option>
+                    <Form.Group as={Col} controlId="formMargen">
+                        <Form.Label>Margen</Form.Label>
+                        <Form.Control name='margen' as="select" required onChange={this.onChangeValue}>
+                            <option>Largo</option>
+                            <option>Corto</option>
                         </Form.Control>
                     </Form.Group>
 
-                    <Form.Group as={Col} controlId="formGridZip">
-                        <Form.Label>Zip</Form.Label>
-                        <Form.Control />
+                    <Form.Group as={Col} controlId="formTerminacion">
+                        <Form.Label>Terminacion</Form.Label>
+                        <Form.Control name='terminacion' as="select" required onChange={this.onChangeValue}>
+                            <option>Sin Terminacion</option>
+                            <option>Abrochado</option>
+                            <option>Anillado</option>
+                        </Form.Control>
                     </Form.Group>
                 </Form.Row>
-
-                <Form.Group id="formGridCheckbox">
-                    <Form.Check type="checkbox" label="Check me out" />
-                </Form.Group>
-
-                <Button variant="primary" type="submit">
-                    Submit
-                </Button>
+                <Button variant="primary" type="submit" >Agregar Impresion</Button>
             </Form>
         );
     }

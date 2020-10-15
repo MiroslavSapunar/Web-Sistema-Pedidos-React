@@ -1,50 +1,30 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Table, Button, Row, Col, Container } from 'react-bootstrap';
 import axios from 'axios';
-import { Table } from 'react-bootstrap'
+import RowWork from './rowWorks';
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 const COMP_URL = '/trabajos/';
-
-const Work = props => (
-
-    <tr>
-        <td>N° Pedido</td>
-        <td>{props.work.numeroTrabajo}</td>
-        <td>{props.work.paginasCarilla}</td>
-        <td>{props.work.faz}</td>
-        <td>{props.work.terminacion}</td>
-        <td>{props.work.linkDrive}</td>
-        <td>{props.work.id_worker}</td>
-        <td class="bg-warning">{props.work.estado}</td>
-        <td>
-            <a href="#" onClick={() => { props.reportar(props.work._id)}}>Reportar</a> | <a href="#" onClick={() => { props.tomar(props.work._id)}}>Tomar</a> | <a href="#" onClick={() => { props.terminar(props.work._id)}}>Terminar</a>
-        </td>
-    </tr>
-)
 
 export default class WorkList extends Component{
     constructor(props) {
         super(props);
 
-        this.deleteWork = this.deleteWork.bind(this);
-        this.tomarTrabajo = this.tomarTrabajo.bind(this);
-        this.terminarTrabajo = this.terminarTrabajo.bind(this);
-        this.reportarTrabajo = this.reportarTrabajo.bind(this);
+        //this.deleteWork = this.deleteWork.bind(this);
+        this.reset = this.reset.bind(this);
+        this.refresh = this.refresh.bind(this);
+        this.showFinished = this.showFinished.bind(this);
 
-        this.state = {works: []};
+        this.state = {
+            works: []
+        };
     }
 
     componentDidMount() {
-        axios.get( BASE_URL + COMP_URL)
-            .then(response => {
-                this.setState({ works: response.data })
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        this.refresh();
     }
-
+    
+    /**
     deleteWork(id) {
         axios.delete( BASE_URL + COMP_URL + id)
             .then(response => console.log(response.data));
@@ -52,50 +32,83 @@ export default class WorkList extends Component{
             works: this.state.works.filter(el => el._id !== id)
         });
     }
+    */
 
-
-    reportarTrabajo(){
-
+    reset(){
+        this.setState({ 
+            works: []
+        })
     }
 
-    tomarTrabajo(){
+    refresh(){
+        this.reset();
 
+        axios.get( BASE_URL + COMP_URL)
+        .then(response => {
+            this.setState({ 
+                works: response.data.filter(el => el.estado !== 'Terminado')
+             })
+        })
+        .catch((error) => {
+            console.log(error);
+        })
     }
 
-    terminarTrabajo(){
+    showFinished(e){
+        e.preventDefault();
+
+        this.reset();
+
+        axios.get( BASE_URL + COMP_URL)
+        .then(response => {
+            this.setState({ 
+                works: response.data
+             })
+        })
+        .catch((error) => {
+            console.log(error);
+        })
 
     }
 
     exerciseList(){
         return this.state.works.map(currentwork => {
-            return <Work work = {currentwork} reportar = {this.reportarTrabajo} tomar = {this.tomarTrabajo} terminar = {this.terminarTrabajo} key = {currentwork._id}/>;
+            return <RowWork work = {currentwork} delete = {this.deleteWork} key={currentwork._id }/>;
         })
     }
 
     render(){
         return (
-            <div>
-                <h3 className='font-weight-bold mt-3 mb-3'>Trabajos sin terminar</h3>
+            <Container>
+                <h1 className='font-weight-bold mt-4 mb-3'>Trabajos Pendientes</h1>
+                <Container className='w-75 align-self-center mt-2 mb-2'>
+                    <Row>
+                        <Col></Col>
+                        <Button variant="info" className="mb-3" onClick={this.refresh}>Actualizar</Button>
+                        <Col></Col>
+                        <Button variant="secondary" className="mb-3" onClick={this.showFinished}>Mostrar Terminados</Button>
+                        <Col></Col>
+                    </Row>
+                </Container>
                 <Table className="table" striped bordered hover size="sm">
                     <thead className="thead-dark">
                         <tr>
                             <th>N° Pedido</th>
                             <th>N° Trabajo</th>
-                            <th>Pags por Carilla</th>
+                            <th>Pags X Carilla</th>
                             <th>Faz</th>
                             <th>Terminacion</th>
                             <th>link</th>
                             <th>Responsable</th>
                             <th>Estado</th>
-                            <th>Accion</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         { this.exerciseList() }
                     </tbody>
-
                 </Table>
-            </div>
+            </Container>
         );
     }
 }

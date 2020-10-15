@@ -10,7 +10,10 @@ export default class NavBar extends Component {
                     <Link to='/' className='navbar-brand'>INICIO</Link>
                     <ul className='navbar-nav mr-auto'>
                         <li className='nav-item'>
-                            <Link to='/crearPedido' className='nav-link'>Crea Pedido</Link>    
+                            <Link to='/crearPedido' className='nav-link'>Crear Pedido</Link>    
+                        </li>
+                        <li className='nav-item'>
+                            <Link to='/pedidos' className='nav-link'>Pedidos</Link>    
                         </li>
                         <li className='nav-item'>
                             <Link to='/trabajos' className='nav-link'>Trabajos</Link>    
