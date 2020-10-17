@@ -12,6 +12,7 @@ export default class WorkForm extends Component {
 
         this.state = {
             id_pedido:'',
+            numeroPedido:'',
             numeroTrabajo:0,
             tamanioPapel:'',
             linkDrive: '',
@@ -31,6 +32,7 @@ export default class WorkForm extends Component {
     componentDidMount() {
         this.setState({
             id_pedido:'Sin Asignar',
+            numeroPedido:'Sin Asignar',
             numeroTrabajo: 0,
             tamanioPapel:'A4',
             linkDrive: '',
@@ -49,8 +51,8 @@ export default class WorkForm extends Component {
     }
 
     componentDidUpdate(){
-        console.log("se actualizo componente");
-        console.log(this.state);
+        //console.log("se actualizo componente");
+        //console.log(this.state);
     }
     
     onChangeValue = event => {
@@ -58,41 +60,52 @@ export default class WorkForm extends Component {
         this.setState({
             [name]: value
         })
+        //console.log(event.target.name);
+        //console.log(event.target.value)
     }
 
     calculatePrice(){
-
-        //console.log(this.state);
-
 
         var subtotalImpresion = 0;
         var subtotalTerminacion = 0;
         var hojasImpresas = 0;
 
-        var paginasImpresas = Number(this.state.paginasPDF) / Number(this.state.paginasCarilla);
+        var carillasImpresas = Math.round(Number(this.state.paginasPDF) / Number(this.state.paginasCarilla));
 
-        //console.log(paginasImpresas);
-        
-        if ((paginasImpresas % 1) !== 0){
-            paginasImpresas++;
+        /** 
+        if ((Number(this.state.paginasPDF) % Number(this.state.paginasCarilla)) !== 0){
+            carillasImpresas++;
+        }
+        */
+
+        if(this.state.tamanioPapel === 'A4'){
+            if (this.state.faz === "Simple") {
+                subtotalImpresion = carillasImpresas * 2;
+            } else {
+                subtotalImpresion = Math.round(carillasImpresas * 1.5);
+            }
+        }else if(this.state.tamanioPapel === 'A3'){
+            subtotalImpresion = carillasImpresas * 10;
+        }else{
+            subtotalImpresion = carillasImpresas * 3;
         }
 
-        if (this.state.faz === "Simple") {
-            subtotalImpresion = paginasImpresas * 2;
-            hojasImpresas = paginasImpresas;
-        } else {
-            subtotalImpresion = paginasImpresas * 1.5;
-            hojasImpresas = paginasImpresas / 2;
+        if(this.state.faz === "Simple") {
+            hojasImpresas = carillasImpresas;
+        }else {
+            hojasImpresas = Math.round(carillasImpresas / 2);
         }
 
         if(this.state.terminacion === "Anillado") {
-            subtotalTerminacion = (  Math.floor(hojasImpresas / 50) ) * 40;
+            subtotalTerminacion = (  Math.floor((hojasImpresas - 10) / 50) + 1 ) * 40;
         }
-
+        
         return {
             subtotalImpresion, 
             subtotalTerminacion,
+            carillasImpresas,
             hojasImpresas,
+
         }
     }
 
@@ -100,12 +113,12 @@ export default class WorkForm extends Component {
         e.preventDefault();
 
         const costos  = this.calculatePrice();
-
-        console.log(costos.subtotalImpresion);
-        console.log(costos.subtotalterminacion);
-
+        
+        //console.log(this.state.papel);
+        
         const trabajo = {
             id_pedido: this.state.id_pedido,
+            numeroPedido: this.state.numeroPedido,
             numeroTrabajo: Number(this.state.numeroTrabajo) + 1,
             tamanioPapel : this.state.tamanioPapel,
             linkDrive: this.state.linkDrive,
@@ -118,34 +131,24 @@ export default class WorkForm extends Component {
             estado:this.state.estado,
             costoImpresion: costos.subtotalImpresion,
             costoTerminacion: costos.subtotalTerminacion,
+            carillasImpresas: costos.carillasImpresas,
             hojasImpresas: costos.hojasImpresas,
             costoTotal: costos.subtotalImpresion + costos.subtotalTerminacion,
         }
 
-        console.log(trabajo);
+        //console.log(trabajo);
+
         this.props.return(trabajo);
         
         this.setState( (state) => ({
             numeroTrabajo : Number(state.numeroTrabajo) + 1
         }));
-        /**
-         * 
-        
-        axios.post('http://localhost:5000/trabajos/add', trabajo)
-            .then(res => {
-
-                this.props.return(res.data);
-            })
-            .catch(err => {
-                console.log(err);
-            });
-         */
     }
     
     render() {
         return (
-            <Form className="w-75" onSubmit={this.submitWork}>
-                <h3 className='mt-3 mb-2 w-75'>Datos y especificaciones impresiones</h3>
+            <Form className="w-100" onSubmit={this.submitWork}>
+                <h3 className='mt-3 mb-3 w-75'>Datos y especificaciones impresiones</h3>
                 <Form.Group as={Row} controlId="formLink">
                     <Form.Label column xs="2">Link archivo</Form.Label>
                     <Col sm="10">
@@ -158,8 +161,8 @@ export default class WorkForm extends Component {
                         <Form.Control type="number" name='paginasPDF' required onChange={this.onChangeValue}>
                         </Form.Control>
                     </Form.Group>
-                    <Form.Group as={Col} controlId="formTamanio">
-                        <Form.Label>Faz</Form.Label>
+                    <Form.Group as={Col} controlId="formPapel">
+                        <Form.Label>Tamaño Papel</Form.Label>
                         <Form.Control name='tamanioPapel' as="select" required onChange={this.onChangeValue}>
                             <option>A4</option>
                             <option>Oficio</option>
@@ -200,7 +203,11 @@ export default class WorkForm extends Component {
                         </Form.Control>
                     </Form.Group>
                 </Form.Row>
-                <Button variant="primary" type="submit" >Agregar Impresion</Button>
+                <Row className="w-75 align-content-right">
+                    <Col></Col>
+                    <Button variant="primary" type="submit" >Agregar Impresion</Button>
+                    <Col></Col>
+                </Row>
             </Form>
         );
     }

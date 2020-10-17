@@ -12,7 +12,6 @@ export default class RowWork extends Component {
 
     delete(e){
         e.preventDefault();
-        //console.log(this.props.workList._id);
         this.props.deleteWork(this.props.workList.numeroTrabajo);
     }
 
@@ -25,9 +24,11 @@ export default class RowWork extends Component {
                 <td>{this.props.workList.paginasCarilla}</td>
                 <td>{this.props.workList.faz}</td>
                 <td>{this.props.workList.margen}</td>
-                <td>{this.props.workList.hojasImpresas}</td>
+                <td>{this.props.workList.tamanioPapel}</td>
+                <td>{this.props.workList.carillasImpresas}</td>
                 <td>{"$ " + this.props.workList.costoImpresion}</td>
                 <td>{this.props.workList.terminacion}</td>
+                <td>{this.props.workList.hojasImpresas}</td>
                 <td>{"$ " + this.props.workList.costoTerminacion}</td>
                 <td>{"$ " + this.props.workList.costoTotal}</td>
                 <td>

@@ -23,7 +23,6 @@ export default class ContactForm extends Component{
         }
     }
 
-
     componentDidMount() {
         this.setState({
             nombre:'',
@@ -44,7 +43,6 @@ export default class ContactForm extends Component{
         this.setState({
             [name]: value
         })
-        console.log(event.target.value)
     }
 
 
@@ -67,31 +65,11 @@ export default class ContactForm extends Component{
         this.setState({
             registrado: true,
         })
-        
-        /** 
-        //console.log(contacto);
-        axios.post('http://localhost:5000/contactos/add', contacto)
-            .then(res => {
-                //console.log(res.data);
-                //console.log(this.state);
-                this.setState({
-                    registrado: true,
-                    id_contact: res.data,
-                })
-                this.props.return(res.data);
-
-            })
-            .catch(err => {
-                console.log(err);
-            });
-        
-        */
     }
-
 
     render(){
         return(
-            <Form className="w-75" onSubmit={this.submitContact}>
+            <Form className="w-100" onSubmit={this.submitContact}>
                 <h3 className='mt-2 mb-2 w-75'>Datos de contacto</h3>
                 <Form.Group as={Row} controlId="formNombre">
                     <Form.Label column xs="2">Nombre</Form.Label>
@@ -131,12 +109,11 @@ export default class ContactForm extends Component{
                         <Form.Control type="number" name='dni' placeholder="Dni para la entrega" required onChange={this.onChangeValue} />
                     </Col>
                 </Form.Group>
-                <Row>
+                <Row className="w-75 align-content-right">
                     <Col></Col>
                     <Button variant="primary" type='Submit' disabled={this.state.registrado}>Guardar Contacto</Button>
                     <Col></Col>
                     <Button variant="primary" type='Submit' disabled={!this.state.registrado}>Editar Contacto</Button>
-                    <Col></Col>
                 </Row>
             </Form>
         );

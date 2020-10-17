@@ -14,6 +14,7 @@ export default class RowWork extends Component {
 
         this.state = {
             id:'',
+            numeroPedido:'',
             id_pedido:'',
             numeroTrabajo:'',
             paginasCarilla:'',
@@ -31,6 +32,7 @@ export default class RowWork extends Component {
         this.setState({ 
             id:this.props.work._id,
             id_pedido: this.props.work.id_pedido,
+            numeroPedido: this.props.work.numeroPedido,
             numeroTrabajo: this.props.work.numeroTrabajo,
             paginasCarilla: this.props.work.paginasCarilla,
             faz: this.props.work.faz,
@@ -100,7 +102,7 @@ export default class RowWork extends Component {
     render(){
         return (
             <tr>
-                <td>{this.state.id_pedido}</td>
+                <td>{this.state.numeroPedido}</td>
                 <td>{this.state.numeroTrabajo}</td>
                 <td>{this.state.paginasCarilla}</td>
                 <td>{this.state.faz}</td>
