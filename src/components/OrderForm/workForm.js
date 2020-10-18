@@ -42,7 +42,7 @@ export default class WorkForm extends Component {
             margen: 'Largo',
             terminacion: 'Sin Terminacion',
             id_worker: 'Sin Asignar',
-            estado:'Sin Iniciar',
+            estado:'Sin Pagar',
             costoImpresion: 0,
             costoTerminacion: 0,
             costoTotal: 0

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
- 
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 import Navbar from './components/NavBar';
-import Login from'./components/login';
+import Login from './components/login';
 import Works from './components/Works/works';
 import OrdersList from './components/Orders/orders';
 import CreateOrder from './components/OrderForm/createOrder';
@@ -11,19 +11,19 @@ import Order from './components/Orders/order';
 import E404 from './components/E404';
 
 export default class Routes extends Component {
-  render(){
+  render() {
     return (
       <Router>
         <Navbar />
         <Container fluid='md' className="min-vw-100">
-            <Switch>
-              <Route exact path="/" component= {Login}/>
-              <Route path="/crearPedido" component= {CreateOrder}/>
-              <Route path="/pedidos/:id" component= {Order}/>
-              <Route path="/pedidos" component= {OrdersList}/>
-              <Route path="/trabajos" component= {Works}/>
-              <Route component= {E404}/>
-            </Switch>
+          <Switch>
+            <Route exact path="/" component={Login} />
+            <Route path="/crearPedido" component={CreateOrder} />
+            <Route path="/pedidos/:id" component={Order} />
+            <Route path="/pedidos" component={OrdersList} />
+            <Route path="/trabajos" component={Works} />
+            <Route component={E404} />
+          </Switch>
         </Container>
       </Router>
     );

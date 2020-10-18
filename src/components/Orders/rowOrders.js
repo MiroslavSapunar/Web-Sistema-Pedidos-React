@@ -24,13 +24,12 @@ export default class RowOrder extends Component {
 
             pagado: false,
             enviado: false
-
         };
     }
 
     componentDidMount() {
+
         this.setState({ 
-            
             id: this.props.order._id,
             numeroPedido: this.props.order.numeroPedido,
             id_reception: this.props.order.id_reception,
@@ -57,8 +56,8 @@ export default class RowOrder extends Component {
     }
 
     actualizarEstado(id, nuevoEstado){
-        console.log(id);
-        console.log(nuevoEstado);
+        //console.log(id);
+        //console.log(nuevoEstado);
         
         const  workUpdate = {
             estado: nuevoEstado,
@@ -66,26 +65,35 @@ export default class RowOrder extends Component {
 
         axios.post( BASE_URL + COMP_URL + 'update/'+ id, workUpdate)
         .then(res => {
-            console.log(res);
+            //console.log(res);
+            
             this.setState({ 
                 estado: nuevoEstado,
             });
 
             if(this.state.estado === 'Pagado'){
+                
                 this.setState({ 
                     pagado: true,
                     enviado: false,
                 });
+
+                this.props.paidWorks(id);
+
             }else if(this.state.estado === 'Enviado') {
+                
                 this.setState({ 
                     pagado: true,
                     enviado: true,
                 });
+
             }else{
+                
                 this.setState({ 
                     pagado: false,
                     enviado: true,
                 });
+
             }
 
             console.log("Pedido actualizado");
@@ -101,10 +109,10 @@ export default class RowOrder extends Component {
                 <td><a  href={'/pedidos/' + this.state.id}>ir</a> </td>
                 <td>{this.state.numeroPedido}</td>
                 <td>{this.state.id_reception}</td>
-                <td>{this.state.totalPedido}</td>
-                <td>{this.state.costoEnvio}</td>
-                <td>{this.state.costoTotal}</td>
-                <td class="bg-warning">{this.state.estado}</td>
+                <td>{'$ ' + this.state.totalPedido}</td>
+                <td>{'$ ' + this.state.costoEnvio}</td>
+                <td>{'$ ' + this.state.costoTotal}</td>
+                <td className="bg-warning">{this.state.estado}</td>
                 <td>
                     <Button variant="danger" size="sm" 
                         onClick={() => { this.actualizarEstado(this.state.id, 'Reportado')}}

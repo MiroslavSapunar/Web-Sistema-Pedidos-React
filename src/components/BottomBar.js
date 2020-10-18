@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
 import {Row, Col, Navbar} from'react-bootstrap'; 
 
-export default class Buttom extends Component {
+export default class BottomBar extends Component {
 
     render() {
         return (
             <Navbar bg="dark" variant="dark" expand="lg" fixed="bottom">
-                <Row className="container align-content-right align-items-right row-cols-3">
                     <Col className='col-auto'>
-                        <label className='navbar-brand font-weight-bold'>MiRoMi</label>
+                        <Row className="justify-content-center align-items-center">
+                            <label className='navbar-brand font-weight-bold'>MiRoMi</label>
+                            <label className="text-white text-nowrap"> ©2020</label>
+                        </Row>
+                    </Col>
+                    <Col className='col-9'>
                     </Col>
                     <Col className='col-auto'>
-                        <label className=" text-white"> ©2020 </label>
+                        <Row className="align-items-right">
+                            <label className="text-white text-nowrap">psapunar@fi.uba.ar</label>
+                        </Row>
                     </Col>
-                    <Col className='col-auto'>
-                        <label className="text-white text-nowrap"> contact: psapunar@fi.uba.ar</label>
-                    </Col>
-                </Row>
             </Navbar>
         );
     }

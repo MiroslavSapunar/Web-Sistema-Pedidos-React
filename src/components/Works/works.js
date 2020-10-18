@@ -6,7 +6,7 @@ import RowWork from './rowWorks';
 const BASE_URL = process.env.REACT_APP_API_URL;
 const COMP_URL = '/trabajos/';
 
-export default class WorkList extends Component{
+export default class WorkList extends Component {
     constructor(props) {
         super(props);
 
@@ -23,10 +23,10 @@ export default class WorkList extends Component{
     componentDidMount() {
         this.refresh();
     }
-    
+
     /**
     deleteWork(id) {
-        axios.delete( BASE_URL + COMP_URL + id)
+        axios.deletTerminadoe( BASE_URL + COMP_URL + id)
             .then(response => console.log(response.data));
         this.setState({
             works: this.state.works.filter(el => el._id !== id)
@@ -34,50 +34,53 @@ export default class WorkList extends Component{
     }
     */
 
-    reset(){
-        this.setState({ 
+    reset() {
+        this.setState({
             works: []
         })
     }
 
-    refresh(){
+    refresh() {
         this.reset();
 
-        axios.get( BASE_URL + COMP_URL)
-        .then(response => {
-            this.setState({ 
-                works: response.data.filter(el => el.estado !== 'Terminado')
-             })
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+        axios.get(BASE_URL + COMP_URL)
+            .then(response => {
+                this.setState({
+                    works: response.data.filter(el => el.estado !== 'Sin Pagar')
+                })
+                this.setState({
+                    works: this.state.works.filter(el => el.estado !== 'Terminado')
+                })
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
-    showFinished(e){
+    showFinished(e) {
         e.preventDefault();
 
         this.reset();
 
-        axios.get( BASE_URL + COMP_URL)
-        .then(response => {
-            this.setState({ 
-                works: response.data
-             })
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+        axios.get(BASE_URL + COMP_URL)
+            .then(response => {
+                this.setState({
+                    works: response.data.filter(el => el.estado !== 'Sin Pagar')
+                })
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
     }
 
-    exerciseList(){
+    exerciseList() {
         return this.state.works.map(currentwork => {
-            return <RowWork work = {currentwork} delete = {this.deleteWork} key={currentwork._id }/>;
+            return <RowWork work={currentwork} delete={this.deleteWork} key={currentwork._id} />;
         })
     }
 
-    render(){
+    render() {
         return (
             <Container>
                 <h1 className='font-weight-bold mt-4 mb-3'>Trabajos Pendientes</h1>
@@ -105,7 +108,7 @@ export default class WorkList extends Component{
                         </tr>
                     </thead>
                     <tbody>
-                        { this.exerciseList() }
+                        {this.exerciseList()}
                     </tbody>
                 </Table>
             </Container>

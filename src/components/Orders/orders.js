@@ -14,6 +14,7 @@ export default class OrdersList extends Component{
         this.reset = this.reset.bind(this);
         this.refresh = this.refresh.bind(this);
         this.showFinished = this.showFinished.bind(this);
+        this.paidWorks = this.paidWorks.bind(this);
 
         this.state = {
             orders: []
@@ -62,9 +63,30 @@ export default class OrdersList extends Component{
 
     }
 
+    paidWorks(id){
+        console.log(id);
+
+        const update = {
+            estado: 'Pagado'
+        }
+        
+        axios.get('http://localhost:5000/pedidos/' + id)
+        .then(response => {
+            console.log(response.data.id_works);
+            for (const work of response.data.id_works){
+                axios.post('http://localhost:5000/trabajos/update/' + work, update)
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+        
+
+    }
+
     ordersList(){
         return this.state.orders.map(currentOrder => {
-            return <RowOrder order = {currentOrder} delete = {this.deleteWork} key={currentOrder._id }/>;
+            return <RowOrder order = {currentOrder} key={currentOrder._id } paidWorks ={this.paidWorks} />;
         })
     }
 
@@ -77,7 +99,7 @@ export default class OrdersList extends Component{
                         <Col></Col>
                         <Button variant="info" className="mb-3" onClick={this.refresh}>Actualizar</Button>
                         <Col></Col>
-                        <Button variant="secondary" className="mb-3" onClick={this.showFinished}>Mostrar Terminados</Button>
+                        <Button variant="secondary" className="mb-3" onClick={this.showFinished}>Mostrar Enviados</Button>
                         <Col></Col>
                     </Row>
                 </Container>
