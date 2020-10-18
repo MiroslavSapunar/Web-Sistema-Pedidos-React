@@ -3,15 +3,13 @@ import { Table, Button, Row, Col, Container } from 'react-bootstrap';
 import axios from 'axios';
 import RowWork from './rowWorks';
 
-const BASE_URL = process.env.REACT_APP_API_URL;
-const COMP_URL = '/trabajos/';
+const BASE_URL_API = process.env.REACT_APP_API_URL;
+const ROUTE_URL = '/trabajos/';
 
 export default class WorkList extends Component {
     constructor(props) {
         super(props);
 
-        //this.deleteWork = this.deleteWork.bind(this);
-        this.reset = this.reset.bind(this);
         this.refresh = this.refresh.bind(this);
         this.showFinished = this.showFinished.bind(this);
 
@@ -24,32 +22,16 @@ export default class WorkList extends Component {
         this.refresh();
     }
 
-    /**
-    deleteWork(id) {
-        axios.deletTerminadoe( BASE_URL + COMP_URL + id)
-            .then(response => console.log(response.data));
-        this.setState({
-            works: this.state.works.filter(el => el._id !== id)
-        });
-    }
-    */
-
-    reset() {
-        this.setState({
-            works: []
-        })
-    }
-
     refresh() {
-        this.reset();
-
-        axios.get(BASE_URL + COMP_URL)
+    
+        axios.get(BASE_URL_API + ROUTE_URL)
             .then(response => {
+                var tempWorks =  response.data.filter(el => el.estado !== 'Sin Pagar');
+                
+                tempWorks = tempWorks.filter(el => el.estado !== 'Terminado');
+                
                 this.setState({
-                    works: response.data.filter(el => el.estado !== 'Sin Pagar')
-                })
-                this.setState({
-                    works: this.state.works.filter(el => el.estado !== 'Terminado')
+                    works: tempWorks
                 })
             })
             .catch((error) => {
@@ -62,10 +44,12 @@ export default class WorkList extends Component {
 
         this.reset();
 
-        axios.get(BASE_URL + COMP_URL)
+        axios.get(BASE_URL_API + ROUTE_URL)
             .then(response => {
+                var tempWorks =  response.data.filter(el => el.estado !== 'Sin Pagar');
+                
                 this.setState({
-                    works: response.data.filter(el => el.estado !== 'Sin Pagar')
+                    works: tempWorks
                 })
             })
             .catch((error) => {

@@ -22,18 +22,10 @@ export default class TableForm extends Component {
         });
     }
 
-    /** 
-    componentDidUpdate(){
-        //console.log("se actualizo componente");
-        //console.log(this.state);
-    }
-    */
     componentWillReceiveProps(props){
-        //console.log("update tabla, supuestamente cambio proms");
         this.setState({
             works: props.works
         })
-        //console.log(this.state.works);
     }
 
 

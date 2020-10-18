@@ -11,6 +11,10 @@ import DetailForm from'./detailForm';
 const orderCountURL = process.env.REACT_APP_API_ORDER_COUNT;
 const orderCountUpdateURL = process.env.REACT_APP_API_ORDER_COUNTUP;
 
+const BASE_URL_API = process.env.REACT_APP_API_URL;
+const ROUTE_ORDERS_URL = '/pedidos/';
+const ROUTE_WORKS_URL = '/trabajos/';
+
 export default class CreateOrder extends Component {
 
     constructor(props) {
@@ -106,7 +110,7 @@ export default class CreateOrder extends Component {
                 cuenta: (Number(numeroPedido) + 1)
             }
 
-            axios.post('http://localhost:5000/contadores/update/5f89136a760dae56b44f1075', count)
+            axios.post( BASE_URL_API + '/contadores/update/5f89136a760dae56b44f1075', count)
             .then(res => {
                 //console.log(res);
             })
@@ -124,7 +128,7 @@ export default class CreateOrder extends Component {
 
     async saveContact(){
         try{
-            const res = await axios.post('http://localhost:5000/contactos/add', this.state.contact[0])
+            const res = await axios.post( BASE_URL_API + '/contactos/add', this.state.contact[0])
             return res.data;
         
         } catch (error){
@@ -136,7 +140,7 @@ export default class CreateOrder extends Component {
     async saveWork(workOb){
         
         try{
-            const res = await axios.post('http://localhost:5000/trabajos/add', workOb)
+            const res = await axios.post( BASE_URL_API + '/trabajos/add', workOb)
             return res.data;
     
         } catch (error){
@@ -162,7 +166,7 @@ export default class CreateOrder extends Component {
         const update = {
             id_pedido: id_pedido_
         }
-        axios.post('http://localhost:5000/contactos/update/' + contact, update)
+        axios.post( BASE_URL_API + '/contactos/update/' + contact, update)
         .then(res => {
             console.log.apply(res);
         })
@@ -187,7 +191,7 @@ export default class CreateOrder extends Component {
                 numeroTrabajo: i
             }
 
-            axios.post('http://localhost:5000/trabajos/update/' + work, updateNumberWork)
+            axios.post( BASE_URL_API + '/trabajos/update/' + work, updateNumberWork)
             .then(res => {
                 console.log.apply(res);
             })
@@ -195,7 +199,7 @@ export default class CreateOrder extends Component {
                 console.log(err);
             });
 
-            axios.post('http://localhost:5000/trabajos/update/' + work, updateNumberOrder)
+            axios.post( BASE_URL_API +'/trabajos/update/' + work, updateNumberOrder)
             .then(res => {
                 console.log.apply(res);
             })
@@ -203,7 +207,7 @@ export default class CreateOrder extends Component {
                 console.log(err);
             });
 
-            axios.post('http://localhost:5000/trabajos/update/' + work, updateIdOrder)
+            axios.post( BASE_URL_API + '/trabajos/update/' + work, updateIdOrder)
             .then(res => {
                 console.log.apply(res);
             })
@@ -251,14 +255,12 @@ export default class CreateOrder extends Component {
 
         console.log(order)
 
-        await axios.post('http://localhost:5000/pedidos/add', order)
+        await axios.post( BASE_URL_API + '/pedidos/add', order)
             .then(res => {
                 console.log(res.data)
-                id_pedido = res.data;
-                //console.log(res.data);                
+                id_pedido = res.data;                
             })
             .catch(err => {
-                //console.log(res);
                 console.log(err);
             })
 

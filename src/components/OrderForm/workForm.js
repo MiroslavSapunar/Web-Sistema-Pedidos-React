@@ -60,8 +60,6 @@ export default class WorkForm extends Component {
         this.setState({
             [name]: value
         })
-        //console.log(event.target.name);
-        //console.log(event.target.value)
     }
 
     calculatePrice(){
@@ -71,12 +69,6 @@ export default class WorkForm extends Component {
         var hojasImpresas = 0;
 
         var carillasImpresas = Math.round(Number(this.state.paginasPDF) / Number(this.state.paginasCarilla));
-
-        /** 
-        if ((Number(this.state.paginasPDF) % Number(this.state.paginasCarilla)) !== 0){
-            carillasImpresas++;
-        }
-        */
 
         if(this.state.tamanioPapel === 'A4'){
             if (this.state.faz === "Simple") {
@@ -113,9 +105,7 @@ export default class WorkForm extends Component {
         e.preventDefault();
 
         const costos  = this.calculatePrice();
-        
-        //console.log(this.state.papel);
-        
+                
         const trabajo = {
             id_pedido: this.state.id_pedido,
             numeroPedido: this.state.numeroPedido,
@@ -135,8 +125,6 @@ export default class WorkForm extends Component {
             hojasImpresas: costos.hojasImpresas,
             costoTotal: costos.subtotalImpresion + costos.subtotalTerminacion,
         }
-
-        //console.log(trabajo);
 
         this.props.return(trabajo);
         

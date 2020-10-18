@@ -29,9 +29,7 @@ export default class ContactForm extends Component{
         })
     }
 
-
     submitDetail(e) {
-
         e.preventDefault();
 
         const contacto = {
@@ -42,7 +40,6 @@ export default class ContactForm extends Component{
 
         this.props.return(contacto);
     }
-
 
     render(){
         return(

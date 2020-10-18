@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import { Container, Row, Table } from 'react-bootstrap';
 import axios from 'axios';
 
-const RowWork = props => (
+const BASE_URL_API = process.env.REACT_APP_API_URL;
+const ROUTE_ORDERS_URL = '/pedidos/';
+const ROUTE_WORKS_URL = '/trabajos/';
 
+
+const RowWork = props => (
     <tr>
         <td>{props.work.numeroTrabajo}</td>
         <td>{props.work.paginasPDF}</td>
@@ -13,7 +17,6 @@ const RowWork = props => (
         <td>{props.work.estado}</td>
 
     </tr>
-
 )
 
 export default class Order extends Component {
@@ -31,10 +34,10 @@ export default class Order extends Component {
     async componentDidMount() {
 
         var list_works = [];
-        const order = (await axios.get('http://localhost:5000/pedidos/' + this.props.match.params.id)).data;
+        const order = (await axios.get( BASE_URL_API + ROUTE_ORDERS_URL + this.props.match.params.id)).data;
         
         for (const work of order.id_works) {
-            const workObj = (await axios.get('http://localhost:5000/trabajos/' + work)).data;
+            const workObj = (await axios.get( BASE_URL_API + ROUTE_WORKS_URL + work)).data;
             list_works = list_works.concat(workObj);
         }
 
