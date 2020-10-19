@@ -3,7 +3,8 @@ import { Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Navbar from './components/NavBar';
-import Login from './components/login';
+import Login from './components/Users/login';
+import Register from './components/Users/register';
 import Works from './components/Works/works';
 import OrdersList from './components/Orders/orders';
 import CreateOrder from './components/OrderForm/createOrder';
@@ -15,12 +16,13 @@ export default class Routes extends Component {
     return (
       <Router>
         <Navbar />
-        <Container fluid='md' className="min-vw-100">
+        <Container fluid='sm'>
           <Switch>
             <Route exact path="/" component={Login} />
             <Route path="/crearPedido" component={CreateOrder} />
             <Route path="/pedidos/:id" component={Order} />
             <Route path="/pedidos" component={OrdersList} />
+            <Route path="/usuarios/registrar" component={Register} />
             <Route path="/trabajos" component={Works} />
             <Route component={E404} />
           </Switch>

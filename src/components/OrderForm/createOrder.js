@@ -8,10 +8,9 @@ import TableForm from './tableForm';
 import DetailForm from'./detailForm';
 
 //const baseURL = process.env.REACT_APP_API;
-const orderCountURL = process.env.REACT_APP_API_ORDER_COUNT;
-const orderCountUpdateURL = process.env.REACT_APP_API_ORDER_COUNTUP;
-
 const BASE_URL_API = process.env.REACT_APP_API_URL;
+const orderCountURL = process.env.REACT_APP_API_ORDER_COUNT;
+
 const ROUTE_ORDERS_URL = '/pedidos/';
 const ROUTE_WORKS_URL = '/trabajos/';
 

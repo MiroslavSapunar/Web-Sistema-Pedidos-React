@@ -42,7 +42,6 @@ export default class WorkList extends Component {
     showFinished(e) {
         e.preventDefault();
 
-        this.reset();
 
         axios.get(BASE_URL_API + ROUTE_URL)
             .then(response => {

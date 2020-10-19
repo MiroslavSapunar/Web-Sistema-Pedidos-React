@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table } from 'react-bootstrap';
+import { Container, Table } from 'react-bootstrap';
 
 import RowForm from './rowForm';
 
@@ -41,7 +41,7 @@ export default class TableForm extends Component {
 
     render() {
         return (
-            <div className='align-self-center mt-2 mb-2'>
+            <Container fluid='sm' className='align-self-center mt-2 mb-2'>
                 <h3 className='mb-3'>Trabajos guardados</h3>
                 <Table striped bordered hover size="sm">
                     <thead className="thead-dark">
@@ -66,8 +66,7 @@ export default class TableForm extends Component {
                         {this.renderRows()}
                     </tbody>
                 </Table>
-                
-            </div>
+            </Container>
         );
     }
 }
