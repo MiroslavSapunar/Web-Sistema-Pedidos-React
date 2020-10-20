@@ -34,10 +34,10 @@ export default class Order extends Component {
     async componentDidMount() {
 
         var list_works = [];
-        const order = (await axios.get( BASE_URL_API + ROUTE_ORDERS_URL + this.props.match.params.id)).data;
-        
+        const order = (await axios.get(BASE_URL_API + ROUTE_ORDERS_URL + this.props.match.params.id)).data;
+
         for (const work of order.id_works) {
-            const workObj = (await axios.get( BASE_URL_API + ROUTE_WORKS_URL + work)).data;
+            const workObj = (await axios.get(BASE_URL_API + ROUTE_WORKS_URL + work)).data;
             list_works = list_works.concat(workObj);
         }
 
@@ -48,7 +48,7 @@ export default class Order extends Component {
         })
     }
 
-    workList(){
+    workList() {
         return this.state.works.map(currentwork => {
             return <RowWork work={currentwork} key={currentwork._id} />;
         })
@@ -56,27 +56,23 @@ export default class Order extends Component {
 
     render() {
         return (
-            <Container className='mt-2'>
+            <Container fluid='sm' className='mt-2'>
                 <h1>{'Pedido N° ' + this.state.order.numeroPedido}</h1>
-                <Row>
-                    <Container>
-                        <Table>
-                            <thead className="thead-dark">
-                                <tr>
-                                    <th>N° Trabajo</th>
-                                    <th>Pags PDF</th>
-                                    <th>Pags X Carilla</th>
-                                    <th>Faz</th>
-                                    <th>Terminacion</th>
-                                    <th>Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.workList()}
-                            </tbody>
-                        </Table>
-                    </Container>
-                </Row>
+                <Table responsive='sm'>
+                    <thead className="thead-dark">
+                        <tr>
+                            <th>N° Trabajo</th>
+                            <th>Pags PDF</th>
+                            <th>Pags X Carilla</th>
+                            <th>Faz</th>
+                            <th>Terminacion</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.workList()}
+                    </tbody>
+                </Table>
             </Container>
         );
     }

@@ -43,7 +43,7 @@ export default class TableForm extends Component {
         return (
             <Container fluid='sm' className='align-self-center mt-2 mb-2'>
                 <h3 className='mb-3'>Trabajos guardados</h3>
-                <Table striped bordered hover size="sm">
+                <Table responsive="sm" striped bordered hover size="sm">
                     <thead className="thead-dark">
                         <tr>
                             <th className="text-wrap align-top text-sm-left">N° Pedido</th>

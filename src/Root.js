@@ -16,7 +16,7 @@ export default class Routes extends Component {
     return (
       <Router>
         <Navbar />
-        <Container fluid='sm'>
+        <Container fluid='sm' className='mb-5'>
           <Switch>
             <Route exact path="/" component={Login} />
             <Route path="/crearPedido" component={CreateOrder} />
