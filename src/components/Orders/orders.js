@@ -92,18 +92,18 @@ export default class OrdersList extends Component{
 
     render(){
         return (
-            <Container>
+            <Container fluid='sm'>
                 <h1 className='font-weight-bold mt-4 mb-3'>Pedidos Pendientes</h1>
-                <Container className='w-75 align-self-center mt-2 mb-2'>
-                    <Row>
-                        <Col></Col>
+                
+                    <Row className='w-75 align-self-center mt-2 mb-2'>
+                        
                         <Button variant="info" className="mb-3" onClick={this.refresh}>Actualizar</Button>
-                        <Col></Col>
+                        <Col className='col-auto'></Col>
                         <Button variant="secondary" className="mb-3" onClick={this.showFinished}>Mostrar Enviados</Button>
-                        <Col></Col>
+                        
                     </Row>
-                </Container>
-                <Table className="table" striped bordered hover size="sm">
+
+                <Table responsive='sm' striped bordered hover size="sm">
                     <thead className="thead-dark">
                         <tr>
                             <th>ID Pedido</th>

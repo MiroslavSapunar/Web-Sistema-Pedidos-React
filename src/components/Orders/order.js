@@ -56,8 +56,13 @@ export default class Order extends Component {
 
     render() {
         return (
-            <Container fluid='sm' className='mt-2'>
-                <h1>{'Pedido N° ' + this.state.order.numeroPedido}</h1>
+            <Container fluid='sm'>
+                <Row className='w-75 align-self-center mt-2 mb-2'>
+
+                <h2>{'Pedido N° ' + this.state.order.numeroPedido}</h2>
+                <h3>{'Estado: ' + this.state.order.estado}</h3>
+                
+                </Row>
                 <Table responsive='sm'>
                     <thead className="thead-dark">
                         <tr>
