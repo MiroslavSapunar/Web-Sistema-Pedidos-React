@@ -67,13 +67,12 @@ export default class WorkList extends Component {
         return (
             <Container fluid='sm'>
                 <h1 className='font-weight-bold mt-4 mb-3'>Trabajos Pendientes</h1>
-                
                     <Row className='w-75 align-self-center mt-2 mb-2'>
+                        <Col className='col-auto'></Col>
                         <Button variant="info" className="mb-3" onClick={this.refresh}>Actualizar</Button>
                         <Col className='col-auto'></Col>
                         <Button variant="secondary" className="mb-3" onClick={this.showFinished}>Mostrar Terminados</Button>
                     </Row>
-                
                 <Table responsive="sm" striped bordered hover size="sm">
                     <thead className="thead-dark">
                         <tr>
