@@ -3,7 +3,10 @@ import React, { Component } from 'react';
 import { Form, Button, Col, Row, ListGroup, ListGroupItem, Alert, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+const bcrypt = require('bcryptjs');
+
 const BASE_URL_API = process.env.REACT_APP_API_URL;
+const SALT_ROUNDS = Number(process.env.REACT_APP_SALT_ROUNDS);
 
 export default class Register extends Component {
 
@@ -19,7 +22,8 @@ export default class Register extends Component {
             confirmEmail: '',
             password: '',
             confirmPassword: '',
-            usertype: 'Teleminion',
+            contact: '',
+            usertype: '',
 
             alertUserName: false,
             alertEmail: false,
@@ -37,6 +41,7 @@ export default class Register extends Component {
             confirmEmail: '',
             password: '',
             confirmPassword: '',
+            contact: 'Sin Contacto',
             usertype: 'Teleminion',
 
             alertUserName: false,
@@ -52,6 +57,17 @@ export default class Register extends Component {
         const { name, value } = event.target;
         this.setState({
             [name]: value
+        })
+    }
+
+    resetAlerts() {
+        this.setState({
+            alertUserName: false,
+            alertEmail: false,
+            alertConfirmEmail: false,
+            alertPassword: false,
+            alertConfirmPass: false,
+            checkConditions: true,
         })
     }
 
@@ -82,28 +98,21 @@ export default class Register extends Component {
         }
     }
 
-    resetAlerts() {
-        this.setState({
-            alertUserName: false,
-            alertEmail: false,
-            alertConfirmEmail: false,
-            alertPassword: false,
-            alertConfirmPass: false,
-            checkConditions: true,
-        })
-    }
-
     checkErrorDB(err){
         if(err.code === 11000){
+            
             if (Object.keys(err.keyPattern)[0] === 'username') {
                 this.setState({
                     alertUserName: true,
                 })
-            } else {
+            }
+
+            if (Object.keys(err.keyPattern)[0] === 'email') {
                 this.setState({
                     alertEmail: true,
                 })
             }
+
         }else{
             console.log(err);
         }
@@ -119,27 +128,29 @@ export default class Register extends Component {
 
         const user = {
             username: this.state.username,
-            email: this.state.email,
-            password: this.state.password,
-            usertype:this.state.usertype,
+            email:  bcrypt.hashSync(this.state.email, SALT_ROUNDS),
+            password: bcrypt.hashSync(this.state.password, SALT_ROUNDS),
+            contact: this.state.contact,
+            usertype: this.state.usertype,
             recepciones: 0,
             trabajos: 0,
             pedidos: 0,
         }
 
         if (this.state.checkConditions) {
-            //console.log("paso registro");
-            axios.post(BASE_URL_API + '/usuarios/add', user)
+            //console.log("paso confirmaciones");
+            await axios.post(BASE_URL_API + '/usuarios/add', user)
             .then(res => {
                 //console.log(res);
+                window.location = '/';
             })
             .catch(err => {
                 //console.log(err.response);
                 //console.log(res);
                 this.checkErrorDB(err.response.data);
-            })
+            });
         } else {
-            //console.log("fallo registro");
+            console.log("fallo registro");
         }
     }
 
@@ -147,12 +158,10 @@ export default class Register extends Component {
         return (
             <Container fluid>
                 <Row className="justify-content-center">
-                    <ListGroup className='mt-3 w-50'>
+                    <ListGroup className='w-50'>
                         <ListGroupItem>
 
-                            <h2 className='text-center mb-3 text-center font-weight-bold'>
-                                ¡Registrate!
-                            </h2>
+                            <h2 className='text-center mb-3 text-center font-weight-bold'>¡Registrate!</h2>
 
                             <Form onSubmit={this.submitRegister}>
 
@@ -162,7 +171,7 @@ export default class Register extends Component {
                                         <Form.Control name='username' required onChange={this.onChangeValue} />
                                     </Col>
                                 </Form.Group>
-                                <Alert show={this.state.alertUserName} variant='danger'>El nombre de usuario ya fue registrado</Alert>
+                                <Alert show={this.state.alertUserName} variant='danger'>Este nombre de usuario ya fue registrado</Alert>
 
                                 <Form.Group as={Row} controlId="formEmail">
                                     <Form.Label column xs="auto">Email</Form.Label>
@@ -170,7 +179,7 @@ export default class Register extends Component {
                                         <Form.Control name='email' type="email" required onChange={this.onChangeValue} />
                                     </Col>
                                 </Form.Group>
-                                <Alert show={this.state.alertEmail} variant='danger'>El email ya fue registrado</Alert>
+                                <Alert show={this.state.alertEmail} variant='danger'>Este email ya fue registrado</Alert>
 
                                 <Form.Group as={Row} controlId="formConfirmEmail">
                                     <Form.Label column xs="auto">Confirmar email</Form.Label>

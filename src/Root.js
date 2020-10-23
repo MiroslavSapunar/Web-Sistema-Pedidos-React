@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import Navbar from './components/NavBar';
+//import Navbar from './components/NavBar';
 import Login from './components/Users/login';
 import Register from './components/Users/register';
 import Works from './components/Works/works';
@@ -15,8 +15,7 @@ export default class Routes extends Component {
   render() {
     return (
       <Router>
-        <Navbar />
-        <Container fluid='sm' className='mb-5'>
+        <Container fluid='sm' className='mt-4 mb-3'>
           <Switch>
             <Route exact path="/" component={Login} />
             <Route path="/crearPedido" component={CreateOrder} />

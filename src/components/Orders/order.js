@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Table } from 'react-bootstrap';
+import { Container, Row, Col, Table } from 'react-bootstrap';
 import axios from 'axios';
 
 const BASE_URL_API = process.env.REACT_APP_API_URL;
@@ -58,10 +58,10 @@ export default class Order extends Component {
         return (
             <Container fluid='sm'>
                 <Row className='w-75 align-self-center mt-2 mb-2'>
-
-                <h2>{'Pedido N° ' + this.state.order.numeroPedido}</h2>
-                <h3>{'Estado: ' + this.state.order.estado}</h3>
-                
+                    <Col>
+                        <h2>{'Pedido N° ' + this.state.order.numeroPedido}</h2>
+                        <h3>{'Estado: ' + this.state.order.estado}</h3>
+                    </Col>
                 </Row>
                 <Table responsive='sm'>
                     <thead className="thead-dark">
