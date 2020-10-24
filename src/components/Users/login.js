@@ -95,7 +95,7 @@ export default class Login extends Component {
                             <h1 className='text-center font-weight-bold mb-n1 text-break'>Fotocopiadora CEI</h1>
                             <h3 className='text-center mb-3 text-center'>Sistema de monitoreo pedidos online</h3>
                             <h2 className="text-center mb-3 font-weight-bold">Bienvenid@</h2>
-                            <Row className="justify-content-md-center">
+                            <Row className="justify-content-center">
 
                                 <Form className='w-50' onSubmit={this.submitLogin}>
 
@@ -112,7 +112,7 @@ export default class Login extends Component {
                                     <label><input className="checkbox mt-1 mb-2" type="checkbox" value="remember-me" /> Recordarme</label>
 
                                     <Row className="justify-content-center mb-2">
-                                        <Button className="btn-lg btn-dark btn-block w-50" type='Submit'>Ingresar</Button>
+                                        <Button className="btn-lg btn-dark btn-block w-50 text-center" type='Submit'>Ingresar</Button>
                                     </Row>
 
                                     <Row className="align-items-end">

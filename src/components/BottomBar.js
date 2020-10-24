@@ -13,9 +13,14 @@ export default class BottomBar extends Component {
                         </Row>
                     </Col>
 
-                    <Col className='col-auto'>
-                        <Row className="align-items-right">
+                    <Col className='col-auto align-items-center align-content-center'>
+                        <Row>
+                            <label className="text-white text-nowrap mb-n1">contacto</label>
+
+                        </Row>
+                        <Row>
                             <label className="text-white text-nowrap">psapunar@fi.uba.ar</label>
+
                         </Row>
                     </Col>
             </Navbar>
