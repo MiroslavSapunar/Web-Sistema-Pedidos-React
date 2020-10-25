@@ -10,6 +10,7 @@ import OrdersList from './components/Orders/orders';
 import CreateOrder from './components/OrderForm/createOrder';
 import Order from './components/Orders/order';
 import E404 from './components/E404';
+import Profile from './components/Users/profile';
 
 export default class Routes extends Component {
   render() {
@@ -21,6 +22,7 @@ export default class Routes extends Component {
             <Route path="/crearPedido" component={CreateOrder} />
             <Route path="/pedidos/:id" component={Order} />
             <Route path="/pedidos" component={OrdersList} />
+            <Route path="/perfil" component={Profile} />
             <Route path="/usuarios/registrar" component={Register} />
             <Route path="/trabajos" component={Works} />
             <Route component={E404} />

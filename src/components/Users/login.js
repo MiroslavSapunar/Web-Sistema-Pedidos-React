@@ -7,7 +7,6 @@ import axios from 'axios';
 const bcrypt = require('bcryptjs');
 
 const BASE_URL_API = process.env.REACT_APP_API_URL;
-const SALT_ROUNDS = Number(process.env.REACT_APP_SALT_ROUNDS);
 
 export default class Login extends Component {
 
@@ -51,9 +50,7 @@ export default class Login extends Component {
     }
 
     checkPassword(recivePassword){
-        //console.log("check password");
-        return bcrypt.compareSync(this.state.password,recivePassword);
-         
+        return bcrypt.compareSync(this.state.password,recivePassword); 
     }
 
     submitLogin(e){
@@ -70,9 +67,8 @@ export default class Login extends Component {
                         alertUsername: true
                     })
                 }else {
-                    //console.log(res.data[0].password);
                     if(this.checkPassword(res.data)){
-                        window.location = '/pedidos';
+                        window.location = '/perfil';
     
                     }else{
                         this.setState({
@@ -93,7 +89,7 @@ export default class Login extends Component {
                     <ListGroup className='mt-3 mb-5 w-75'>
                         <ListGroupItem className='justify-content-center'>
                             <h1 className='text-center font-weight-bold mb-n1 text-break'>Fotocopiadora CEI</h1>
-                            <h3 className='text-center mb-3 text-center'>Sistema de monitoreo pedidos online</h3>
+                            <h3 className='text-center mb-2 text-center'>Sistema de monitoreo pedidos online</h3>
                             <h2 className="text-center mb-3 font-weight-bold">Bienvenid@</h2>
                             <Row className="justify-content-center">
 
