@@ -171,7 +171,7 @@ export default class Register extends Component {
                                         <Form.Control name='username' required onChange={this.onChangeValue} />
                                     </Col>
                                 </Form.Group>
-                                <Alert show={this.state.alertUserName} variant='danger'>Este nombre de usuario ya fue registrado</Alert>
+                                <Alert transition={false} show={this.state.alertUserName} variant='danger'>Este nombre de usuario ya fue registrado</Alert>
 
                                 <Form.Group as={Row} controlId="formEmail">
                                     <Form.Label column xs="auto">Email</Form.Label>
@@ -179,7 +179,7 @@ export default class Register extends Component {
                                         <Form.Control name='email' type="email" required onChange={this.onChangeValue} />
                                     </Col>
                                 </Form.Group>
-                                <Alert show={this.state.alertEmail} variant='danger'>Este email ya fue registrado</Alert>
+                                <Alert transition={false} show={this.state.alertEmail} variant='danger'>Este email ya fue registrado</Alert>
 
                                 <Form.Group as={Row} controlId="formConfirmEmail">
                                     <Form.Label column xs="auto">Confirmar email</Form.Label>
@@ -187,7 +187,7 @@ export default class Register extends Component {
                                         <Form.Control name='confirmEmail' type="email" required onChange={this.onChangeValue} />
                                     </Col>
                                 </Form.Group>
-                                <Alert show={this.state.alertConfirmEmail} variant='danger'>El email no fue correctamente confirmado</Alert>
+                                <Alert transition={false} show={this.state.alertConfirmEmail} variant='danger'>El email no fue correctamente confirmado</Alert>
 
                                 <Form.Group as={Row} controlId="formPass">
                                     <Form.Label column xs="auto">Contraseña</Form.Label>
@@ -198,8 +198,7 @@ export default class Register extends Component {
                                         </Form.Text>
                                     </Col>
                                 </Form.Group>
-                                
-                                <Alert show={this.state.alertPassword} variant='danger'>La contraseña tiene menos de 6 caracteres</Alert>
+                                <Alert transition={false} show={this.state.alertPassword} variant='danger'>La contraseña tiene menos de 6 caracteres</Alert>
 
                                 <Form.Group as={Row} controlId="formConfirmPass">
                                     <Form.Label column xs="auto">Confirmar Contraseña</Form.Label>
@@ -207,8 +206,7 @@ export default class Register extends Component {
                                         <Form.Control name='confirmPassword' type="password" required onChange={this.onChangeValue} />
                                     </Col>
                                 </Form.Group>
-
-                                <Alert show={this.state.alertConfirmPass} variant='danger'>La contraseña no fue correctamente confirmada</Alert>
+                                <Alert transition={false} show={this.state.alertConfirmPass} variant='danger'>La contraseña no fue correctamente confirmada</Alert>
                                 
                                 <Form.Group as={Row} controlId="formUserType">
                                     <Form.Label column xs="auto">Tipo de Usuario Test</Form.Label>

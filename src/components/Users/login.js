@@ -58,28 +58,30 @@ export default class Login extends Component {
 
         this.resetAlerts();
 
-        console.log(this.state.username);
-        axios.get(BASE_URL_API + '/login/' + this.state.username)
-            .then(res => {
-                console.log(res.data);
-                if(res.data.length === 0){
-                    this.setState({
-                        alertUsername: true
-                    })
-                }else {
-                    if(this.checkPassword(res.data)){
-                        window.location = '/perfil';
-    
-                    }else{
-                        this.setState({
-                            alertPassword: true
-                        })
-                    }
-                }                
-            })
-            .catch(err => {
+        //console.log(this.state.username);
+
+        axios.post(BASE_URL_API + '/usuarios/signin', {username: this.state.username})
+        .then(res => {
+            //console.log(res.data);
+            if(this.checkPassword(res.data.password)){
+                //hacer algo con el token
+                window.location = '/perfil';
+            }else{
+                this.setState({
+                    alertPassword: true
+                })
+            }     
+        })
+        .catch(err => {
+            //console.log(err.response.status);
+            if(err.response.status === 401){
+                this.setState({
+                    alertUsername: true
+                })
+            }else{
                 console.log(err);
-            });
+            }
+        });
     }
 
     render() {
@@ -98,12 +100,12 @@ export default class Login extends Component {
                                     <Form.Group as={Row} controlId="formNombre">
                                         <Form.Control name='username' placeholder='Nombre de Usuario' required onChange={this.onChangeValue} />
                                     </Form.Group>
-                                    <Alert show={this.state.alertUsername} variant='danger'>Nombre de usuario no encontrado</Alert>
+                                    <Alert transition={false} show={this.state.alertUsername} variant='danger'>Nombre de usuario no encontrado</Alert>
 
                                     <Form.Group as={Row} controlId="formEmail">
                                         <Form.Control name='password' type="password" placeholder='Contraseña' required onChange={this.onChangeValue} />
                                     </Form.Group>
-                                    <Alert show={this.state.alertPassword} variant='danger'>Contraseña incorrecta</Alert>
+                                    <Alert transition={false} show={this.state.alertPassword} variant='danger'>Contraseña incorrecta</Alert>
 
                                     <label><input className="checkbox mt-1 mb-2" type="checkbox" value="remember-me" /> Recordarme</label>
 
