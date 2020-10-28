@@ -88,7 +88,7 @@ export default class Login extends Component {
         return (
             <Container fluid>
                 <Row className="justify-content-center">
-                    <ListGroup className='mt-3 mb-5 w-50'>
+                    <ListGroup className='mt-3 mb-5 w-75'>
                         <ListGroupItem className='justify-content-center'>
                             <h1 className='text-center font-weight-bold mb-n1 text-break'>Fotocopiadora CEI</h1>
                             <h3 className='text-center mb-2 text-center'>Sistema de monitoreo pedidos online</h3>

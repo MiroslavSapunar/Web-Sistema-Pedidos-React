@@ -8,19 +8,21 @@ export default class BottomBar extends Component {
         return (
             <Navbar  bg="dark" variant="dark" expand="sm" fixed="bottom">
                <Row className="justify-content-around align-content-center align-items-center">
-                    <Col className='col-4'>
-                    <label className="text-white text-nowrap mb-n1">Sitio administrado por la Presidencia del Centro de Estudiantes</label>
-                    <label className="text-white text-nowrap mb-n1">de la Facultad de Ingeniería de la Universidad de Buenos Aires</label>
-                    </Col>
-
-                    <Col className='col-auto' >
-                    </Col>
-
                     <Col className='col-2'>
-                    <a href="https://www.facebook.com/mli.fiuba" target="blank">
-                        <Image fluid src="/img/logopresidenciacei.png" />
-                    </a>
+                        <a href="https://www.facebook.com/mli.fiuba" target="blank">
+                            <Image fluid src="/img/logopresidenciacei.png" />
+                        </a>
+                        </Col>
+
+                    <Col className='col-auto' ></Col>
+
+                    <Col className='col-5'>
+                        <label className="text-white mb-n1">Sitio administrado por la Presidencia del Centro de Estudiantes</label>
+                        <label className="text-white mb-n1">de la Facultad de Ingeniería de la Universidad de Buenos Aires</label>
                     </Col>
+
+
+
                 </Row>
             </Navbar>
         );

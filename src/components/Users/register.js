@@ -158,7 +158,7 @@ export default class Register extends Component {
         return (
             <Container fluid>
                 <Row className="justify-content-center">
-                    <ListGroup className='w-50'>
+                    <ListGroup className='w-75'>
                         <ListGroupItem>
 
                             <h2 className='text-center mb-3 text-center font-weight-bold'>¡Registrate!</h2>
