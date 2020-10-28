@@ -163,7 +163,8 @@ export default class Register extends Component {
 
                             <h2 className='text-center mb-3 text-center font-weight-bold'>¡Registrate!</h2>
 
-                            <Form onSubmit={this.submitRegister}>
+                            <Row className="justify-content-center">
+                            <Form  className='w-75' onSubmit={this.submitRegister}>
 
                                 <Form.Group as={Row} controlId="formNombre">
                                     <Form.Label column xs="auto">Nombre de usuario</Form.Label>
@@ -225,11 +226,12 @@ export default class Register extends Component {
                                     <Col></Col>
                                 </Row>
 
-                            </Form>
-
                             <Row className="align-items-end">
                                 <label className='ml-2 mr-n2'>¿Tenes una cuenta?</label>
                                 <Link to='/' className='nav-link'> Ingresa</Link>
+                            
+                            </Row>
+                            </Form>
                             </Row>
 
                         </ListGroupItem>
