@@ -8,10 +8,16 @@ export default class BottomBar extends Component {
         return (
             <Navbar bg="dark" variant="dark" expand="sm" fixed="bottom">
                 <Row className="justify-content-around align-items-center">
-                    <Col className='col-4'>
-                        <Row className='align-items-center'>
+                    <Col className='col-3'>
+                        <Row className='justify-content-between align-items-center'>
                             <Col clasName='col-auto'>
                                 <Image fluid src="/img/logopresidenciacei.png" />
+                            </Col>
+
+                            <Col className='col-2'>
+                                <a href="https://discord.gg/zJB96cf" target="white">
+                                    <FaDiscord size={30} style={{ fill: 'white' }} />
+                                </a>
                             </Col>
 
                             <Col className='col-2'>
@@ -20,17 +26,13 @@ export default class BottomBar extends Component {
                                 </a>
                             </Col>
 
-                            <Col className='col-2'>
+                            <Col className='col-1'>
                                 <a href="https://www.instagram.com/mli.fiuba" target="white">
                                     <FaInstagram size={30} style={{ fill: 'white' }} />
                                 </a>
                             </Col>
 
-                            <Col className='col-2'>
-                                <a href="https://discord.gg/zJB96cf" target="white">
-                                    <FaDiscord size={30} style={{ fill: 'white' }} />
-                                </a>
-                            </Col>
+
                         </Row>
                     </Col>
 
