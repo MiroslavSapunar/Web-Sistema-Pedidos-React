@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Form, Button, Row, ListGroup, ListGroupItem, Container, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import BottonBar from '../BottomBar';
+import { setSessionCookie } from "../../sessions";
 
 import axios from 'axios';
+
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const BASE_URL_API = process.env.REACT_APP_API_URL;
+const ACCESS_TOKEN_SECRET = process.env.REACT_APP_ACCESS_TOKEN_SECRET;
+
 
 export default class Login extends Component {
 
@@ -16,6 +20,7 @@ export default class Login extends Component {
         this.submitLogin = this.submitLogin.bind(this);
 
         this.state = {
+
             username: '',
             password: '',
 
@@ -45,48 +50,49 @@ export default class Login extends Component {
         this.setState({
             alertUsername: false,
             alertPassword: false
-
         })
     }
 
-    checkPassword(recivePassword){
-        return bcrypt.compareSync(this.state.password,recivePassword); 
+    checkPassword(recivePassword) {
+        return bcrypt.compareSync(this.state.password, recivePassword);
     }
 
-    submitLogin(e){
+    submitLogin(e) {
         e.preventDefault();
 
         this.resetAlerts();
 
         //console.log(this.state.username);
 
-        axios.post(BASE_URL_API + '/usuarios/signin', {username: this.state.username})
-        .then(res => {
-            //console.log(res.data);
-            if(this.checkPassword(res.data.password)){
-                //hacer algo con el token
-                window.location = '/perfil';
-            }else{
-                this.setState({
-                    alertPassword: true
-                })
-            }     
-        })
-        .catch(err => {
-            //console.log(err.response.status);
-            if(err.response.status === 401){
-                this.setState({
-                    alertUsername: true
-                })
-            }else{
+        axios.post(BASE_URL_API + '/usuarios/login', { username: this.state.username })
+            .then(res => {
+                //console.log(res.data);
+
+                if (this.checkPassword((jwt.verify(res.data, ACCESS_TOKEN_SECRET)).password)) {
+                    setSessionCookie((jwt.verify(res.data, ACCESS_TOKEN_SECRET)).id );
+                    this.props.history.push('/perfil');
+                    //window.location = '/perfil';
+                } else {
+                    this.setState({
+                        alertPassword: true
+                    })
+                }
+            })
+            .catch(err => {
                 console.log(err);
-            }
-        });
+                if (err.response.status === 401) {
+                    this.setState({
+                        alertUsername: true
+                    })
+                } else {
+                    console.log(err);
+                }
+            });
     }
 
     render() {
         return (
-            <Container fluid>
+            <Container fluid className='min-vh-100'>
                 <Row className="justify-content-center">
                     <ListGroup className='mt-3 mb-5 w-75'>
                         <ListGroupItem className='justify-content-center'>
@@ -115,7 +121,7 @@ export default class Login extends Component {
 
                                     <Row className="align-items-end">
                                         <label className='ml-2 mr-n2'>¿No tenes una cuenta?</label>
-                                        <Link to='/usuarios/registrar' className='nav-link'> Registrate</Link>
+                                        <Link to='/registrar' className='nav-link'> Registrate</Link>
                                     </Row>
 
                                 </Form>
@@ -123,7 +129,6 @@ export default class Login extends Component {
                         </ListGroupItem>
                     </ListGroup>
                 </Row>
-                <BottonBar />
             </Container>
         )
     }

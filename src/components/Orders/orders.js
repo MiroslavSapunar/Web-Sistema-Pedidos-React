@@ -92,7 +92,7 @@ export default class OrdersList extends Component{
 
     render(){
         return (
-            <Container fluid='sm'>
+            <Container fluid className='min-vh-100'>
                 <h1 className='font-weight-bold mt-4 mb-3'>Pedidos Pendientes</h1>
                     <Row className='w-75 align-self-center mt-2 mb-2'>
                         <Col className='col-auto'></Col>
@@ -100,7 +100,8 @@ export default class OrdersList extends Component{
                         <Col className='col-auto'></Col>
                         <Button variant="secondary" className="mb-3" onClick={this.showFinished}>Mostrar Enviados</Button>
                     </Row>
-                <Table responsive='sm' striped bordered hover size="sm">
+
+                <Table responsive={true} striped bordered hover size="sm">
                     <thead className="thead-dark">
                         <tr>
                             <th>ID Pedido</th>

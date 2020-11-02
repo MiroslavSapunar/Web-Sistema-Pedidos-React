@@ -56,14 +56,14 @@ export default class Order extends Component {
 
     render() {
         return (
-            <Container fluid='sm'>
+            <Container fluid>
                 <Row className='w-75 align-self-center mt-2 mb-2'>
                     <Col>
                         <h2>{'Pedido N° ' + this.state.order.numeroPedido}</h2>
                         <h3>{'Estado: ' + this.state.order.estado}</h3>
                     </Col>
                 </Row>
-                <Table responsive='sm'>
+                <Table responsive={true} striped bordered hover size="sm">
                     <thead className="thead-dark">
                         <tr>
                             <th>N° Trabajo</th>

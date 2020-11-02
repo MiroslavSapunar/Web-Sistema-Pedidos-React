@@ -41,9 +41,9 @@ export default class TableForm extends Component {
 
     render() {
         return (
-            <Container fluid='sm' className='align-self-center mt-2 mb-2'>
+            <Container fluid className='align-self-center mt-2 mb-2'>
                 <h3 className='mb-3'>Trabajos guardados</h3>
-                <Table responsive="sm" striped bordered hover size="sm">
+                <Table responsive={true} striped bordered hover size="sm">
                     <thead className="thead-dark">
                         <tr>
                             <th className="text-wrap align-top text-sm-left">N° Pedido</th>
