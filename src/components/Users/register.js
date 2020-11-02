@@ -145,7 +145,7 @@ export default class Register extends Component {
 
     render() {
         return (
-            <Container className='min-vh-100' >
+            <Container className='min-vh-75' >
                 <Row className="justify-content-center">
                     <ListGroup className='w-75'>
                         <ListGroupItem>

@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const BASE_URL_API = process.env.REACT_APP_API_URL;
-const ACCESS_TOKEN_SECRET = process.env.REACT_APP_ACCESS_TOKEN_SECRET;
+const LOGIN_TOKEN_SECRET = process.env.REACT_APP_LOGIN_TOKEN_SECRET;
 
 
 export default class Login extends Component {
@@ -62,16 +62,11 @@ export default class Login extends Component {
 
         this.resetAlerts();
 
-        //console.log(this.state.username);
-
         axios.post(BASE_URL_API + '/usuarios/login', { username: this.state.username })
             .then(res => {
-                //console.log(res.data);
-
-                if (this.checkPassword((jwt.verify(res.data, ACCESS_TOKEN_SECRET)).password)) {
-                    setSessionCookie((jwt.verify(res.data, ACCESS_TOKEN_SECRET)).id );
+                if (this.checkPassword((jwt.verify(res.data, LOGIN_TOKEN_SECRET)).password)) {
+                    setSessionCookie((jwt.verify(res.data, LOGIN_TOKEN_SECRET)).id );
                     this.props.history.push('/perfil');
-                    //window.location = '/perfil';
                 } else {
                     this.setState({
                         alertPassword: true
@@ -79,7 +74,6 @@ export default class Login extends Component {
                 }
             })
             .catch(err => {
-                console.log(err);
                 if (err.response.status === 401) {
                     this.setState({
                         alertUsername: true
@@ -92,7 +86,7 @@ export default class Login extends Component {
 
     render() {
         return (
-            <Container fluid className='min-vh-100'>
+            <Container fluid className='min-vh-75'>
                 <Row className="justify-content-center">
                     <ListGroup className='mt-3 mb-5 w-75'>
                         <ListGroupItem className='justify-content-center'>
