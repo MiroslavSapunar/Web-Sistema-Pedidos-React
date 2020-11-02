@@ -64,8 +64,8 @@ export default class CreateOrder extends Component {
     }
 
     componentDidUpdate(){
-        console.log("se actualizo componente");
-        console.log(this.state);
+        //console.log("se actualizo componente");
+        //console.log(this.state);
     }
 
     recordContact(contactRecived){
@@ -167,7 +167,7 @@ export default class CreateOrder extends Component {
         }
         axios.post( BASE_URL_API + '/contactos/update/' + contact, update)
         .then(res => {
-            console.log.apply(res);
+            //console.log.apply(res);
         })
         .catch(err => {
             console.log(err);
@@ -192,7 +192,7 @@ export default class CreateOrder extends Component {
 
             axios.post( BASE_URL_API + '/trabajos/update/' + work, updateNumberWork)
             .then(res => {
-                console.log.apply(res);
+                //console.log.apply(res);
             })
             .catch(err => {
                 console.log(err);
@@ -200,7 +200,7 @@ export default class CreateOrder extends Component {
 
             axios.post( BASE_URL_API +'/trabajos/update/' + work, updateNumberOrder)
             .then(res => {
-                console.log.apply(res);
+                //console.log.apply(res);
             })
             .catch(err => {
                 console.log(err);
@@ -208,7 +208,7 @@ export default class CreateOrder extends Component {
 
             axios.post( BASE_URL_API + '/trabajos/update/' + work, updateIdOrder)
             .then(res => {
-                console.log.apply(res);
+                //console.log.apply(res);
             })
             .catch(err => {
                 console.log(err);
@@ -252,11 +252,11 @@ export default class CreateOrder extends Component {
 
         }
 
-        console.log(order)
+        //console.log(order)
 
         await axios.post( BASE_URL_API + '/pedidos/add', order)
             .then(res => {
-                console.log(res.data)
+                //console.log(res.data)
                 id_pedido = res.data;                
             })
             .catch(err => {

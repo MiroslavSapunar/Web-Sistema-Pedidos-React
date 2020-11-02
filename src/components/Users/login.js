@@ -64,8 +64,9 @@ export default class Login extends Component {
 
         axios.post(BASE_URL_API + '/usuarios/login', { username: this.state.username })
             .then(res => {
-                if (this.checkPassword((jwt.verify(res.data, LOGIN_TOKEN_SECRET)).password)) {
-                    setSessionCookie((jwt.verify(res.data, LOGIN_TOKEN_SECRET)).id );
+                const decode = jwt.verify(res.data, LOGIN_TOKEN_SECRET);
+                if (this.checkPassword( decode.password) ){
+                    setSessionCookie( decode );
                     this.props.history.push('/perfil');
                 } else {
                     this.setState({
@@ -74,6 +75,7 @@ export default class Login extends Component {
                 }
             })
             .catch(err => {
+                console.log(err);
                 if (err.response.status === 401) {
                     this.setState({
                         alertUsername: true
