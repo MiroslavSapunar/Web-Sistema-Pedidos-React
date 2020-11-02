@@ -9,7 +9,7 @@ import DetailForm from'./detailForm';
 
 //const baseURL = process.env.REACT_APP_API;
 const BASE_URL_API = process.env.REACT_APP_API_URL;
-const orderCountURL = process.env.REACT_APP_API_ORDER_COUNT;
+const ORDER_COUNT = process.env.REACT_APP_API_COUNT;
 
 const ROUTE_ORDERS_URL = '/pedidos/';
 const ROUTE_WORKS_URL = '/trabajos/';
@@ -101,7 +101,7 @@ export default class CreateOrder extends Component {
     async requestOrderNumber(){
         //console.log(orderCountURL)
         try {
-            const res = await axios.get(orderCountURL);
+            const res = await axios.get(BASE_URL_API + /contadores/ + ORDER_COUNT);
             
             var numeroPedido = res.data.cuenta;            
 
@@ -109,7 +109,7 @@ export default class CreateOrder extends Component {
                 cuenta: (Number(numeroPedido) + 1)
             }
 
-            axios.post( BASE_URL_API + '/contadores/update/5f89136a760dae56b44f1075', count)
+            axios.post( BASE_URL_API + '/contadores/update/' + ORDER_COUNT , count)
             .then(res => {
                 //console.log(res);
             })
