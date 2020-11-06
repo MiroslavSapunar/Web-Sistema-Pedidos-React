@@ -65,7 +65,7 @@ export default class WorkList extends Component {
 
     render() {
         return (
-            <Container className='min-vh-100'>
+            <Container fluid className='min-vh-100'>
                 <h1 className='font-weight-bold mt-4 mb-3'>Trabajos Pendientes</h1>
                     <Row className='w-75 align-self-center mt-2 mb-2'>
                         <Col className='col-auto'></Col>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Col, Row, Form, Button } from 'react-bootstrap';
 
 export default class WorkForm extends Component {
-    
+
     constructor(props) {
         super(props);
 
@@ -11,38 +11,40 @@ export default class WorkForm extends Component {
         this.submitWork = this.submitWork.bind(this);
 
         this.state = {
-            id_pedido:'',
-            numeroPedido:'',
-            numeroTrabajo:0,
-            tamanioPapel:'',
+            id_pedido: '',
+            numeroPedido: '',
+            numeroTrabajo: 0,
+            tamanioPapel: '',
             linkDrive: '',
             faz: '',
+            copias: '',
             paginasPDF: '',
-            paginasCarilla:1,
+            paginasCarilla: 1,
             margen: '',
             terminacion: '',
             id_worker: '',
-            estado:'',
+            estado: '',
             costoImpresion: 0,
             costoTerminacion: 0,
             costoTotal: 0
         }
     }
-    
+
     componentDidMount() {
         this.setState({
-            id_pedido:'Sin Asignar',
-            numeroPedido:'Sin Asignar',
+            id_pedido: 'Sin Asignar',
+            numeroPedido: 'Sin Asignar',
             numeroTrabajo: 0,
-            tamanioPapel:'A4',
+            tamanioPapel: 'A4',
             linkDrive: '',
             faz: 'Simple',
+            copias: '',
             paginasPDF: '',
-            paginasCarilla:1,
+            paginasCarilla: 1,
             margen: 'Largo',
             terminacion: 'Sin Terminacion',
             id_worker: 'Sin Asignar',
-            estado:'Sin Pagar',
+            estado: 'Sin Pagar',
             costoImpresion: 0,
             costoTerminacion: 0,
             costoTotal: 0
@@ -50,11 +52,11 @@ export default class WorkForm extends Component {
 
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
         //console.log("se actualizo componente");
         //console.log(this.state);
     }
-    
+
     onChangeValue = event => {
         const { name, value } = event.target;
         this.setState({
@@ -62,7 +64,7 @@ export default class WorkForm extends Component {
         })
     }
 
-    calculatePrice(){
+    calculatePrice() {
 
         var subtotalImpresion = 0;
         var subtotalTerminacion = 0;
@@ -70,30 +72,30 @@ export default class WorkForm extends Component {
 
         var carillasImpresas = Math.round(Number(this.state.paginasPDF) / Number(this.state.paginasCarilla));
 
-        if(this.state.tamanioPapel === 'A4'){
+        if (this.state.tamanioPapel === 'A4') {
             if (this.state.faz === "Simple") {
                 subtotalImpresion = carillasImpresas * 2;
             } else {
                 subtotalImpresion = Math.round(carillasImpresas * 1.5);
             }
-        }else if(this.state.tamanioPapel === 'A3'){
+        } else if (this.state.tamanioPapel === 'A3') {
             subtotalImpresion = carillasImpresas * 10;
-        }else{
+        } else {
             subtotalImpresion = carillasImpresas * 3;
         }
 
-        if(this.state.faz === "Simple") {
+        if (this.state.faz === "Simple") {
             hojasImpresas = carillasImpresas;
-        }else {
+        } else {
             hojasImpresas = Math.round(carillasImpresas / 2);
         }
 
-        if(this.state.terminacion === "Anillado") {
-            subtotalTerminacion = (  Math.floor((hojasImpresas - 10) / 50) + 1 ) * 40;
+        if (this.state.terminacion === "Anillado") {
+            subtotalTerminacion = (Math.floor((hojasImpresas - 10) / 50) + 1) * 40;
         }
-        
+
         return {
-            subtotalImpresion, 
+            subtotalImpresion,
             subtotalTerminacion,
             carillasImpresas,
             hojasImpresas,
@@ -104,35 +106,37 @@ export default class WorkForm extends Component {
     submitWork(e) {
         e.preventDefault();
 
-        const costos  = this.calculatePrice();
-                
+        const costos = this.calculatePrice();
+
         const trabajo = {
             id_pedido: this.state.id_pedido,
             numeroPedido: this.state.numeroPedido,
             numeroTrabajo: Number(this.state.numeroTrabajo) + 1,
-            tamanioPapel : this.state.tamanioPapel,
+            tamanioPapel: this.state.tamanioPapel,
             linkDrive: this.state.linkDrive,
             faz: this.state.faz,
+            copias: Number(this.state.copias),
             paginasPDF: Number(this.state.paginasPDF),
             paginasCarilla: Number(this.state.paginasCarilla),
             margen: this.state.margen,
             terminacion: this.state.terminacion,
             id_worker: this.state.id_worker,
-            estado:this.state.estado,
+            estado: this.state.estado,
             costoImpresion: costos.subtotalImpresion,
             costoTerminacion: costos.subtotalTerminacion,
             carillasImpresas: costos.carillasImpresas,
             hojasImpresas: costos.hojasImpresas,
-            costoTotal: costos.subtotalImpresion + costos.subtotalTerminacion,
+            costoCopia: Number(costos.subtotalImpresion + costos.subtotalTerminacion),
+            costoTotal: Number(this.state.copias) * Number(costos.subtotalImpresion + costos.subtotalTerminacion),
         }
 
         this.props.return(trabajo);
-        
-        this.setState( (state) => ({
-            numeroTrabajo : Number(state.numeroTrabajo) + 1
+
+        this.setState((state) => ({
+            numeroTrabajo: Number(state.numeroTrabajo) + 1
         }));
     }
-    
+
     render() {
         return (
             <Form className="w-100" onSubmit={this.submitWork}>
@@ -149,6 +153,13 @@ export default class WorkForm extends Component {
                         <Form.Control type="number" name='paginasPDF' required onChange={this.onChangeValue}>
                         </Form.Control>
                     </Form.Group>
+
+                    <Form.Group as={Col} controlId="formCopias">
+                        <Form.Label>Copias</Form.Label>
+                        <Form.Control type="number" name='copias' required onChange={this.onChangeValue}>
+                        </Form.Control>
+                    </Form.Group>
+
                     <Form.Group as={Col} controlId="formPapel">
                         <Form.Label>Tamaño Papel</Form.Label>
                         <Form.Control name='tamanioPapel' as="select" required onChange={this.onChangeValue}>
@@ -157,13 +168,7 @@ export default class WorkForm extends Component {
                             <option>A3</option>
                         </Form.Control>
                     </Form.Group>
-                    <Form.Group as={Col} controlId="formFaz">
-                        <Form.Label>Faz</Form.Label>
-                        <Form.Control name='faz' as="select" required onChange={this.onChangeValue}>
-                            <option>Simple</option>
-                            <option>Doble</option>
-                        </Form.Control>
-                    </Form.Group>
+
                     <Form.Group as={Col} controlId="formPagCara">
                         <Form.Label>Paginas por carrilla</Form.Label>
                         <Form.Control name='paginasCarilla' as="select" required onChange={this.onChangeValue}>
@@ -174,6 +179,15 @@ export default class WorkForm extends Component {
                     </Form.Group>
                 </Form.Row>
                 <Form.Row>
+
+                    <Form.Group as={Col} controlId="formFaz">
+                        <Form.Label>Faz</Form.Label>
+                        <Form.Control name='faz' as="select" required onChange={this.onChangeValue}>
+                            <option>Simple</option>
+                            <option>Doble</option>
+                        </Form.Control>
+                    </Form.Group>
+
                     <Form.Group as={Col} controlId="formMargen">
                         <Form.Label>Margen</Form.Label>
                         <Form.Control name='margen' as="select" required onChange={this.onChangeValue}>

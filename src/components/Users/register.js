@@ -18,17 +18,13 @@ export default class Register extends Component {
 
         this.state = {
             username: '',
-            email: '',
-            confirmEmail: '',
+
             password: '',
             confirmPassword: '',
-            contact: '',
             usertype: '',
 
             alertUserName: false,
-            alertEmail: false,
             alertPassword: false,
-            alertConfirmEmail: false,
             alertConfirmPass: false,
             checkConditions: true,
         }
@@ -37,17 +33,12 @@ export default class Register extends Component {
     componentDidMount() {
         this.setState({
             username: '',
-            email: '',
-            confirmEmail: '',
             password: '',
             confirmPassword: '',
-            contact: 'Sin Contacto',
-            usertype: 'Teleminion',
+            usertype: 'Admin',
 
             alertUserName: false,
-            alertEmail: false,
             alertPassword: false,
-            alertConfirmEmail: false,
             alertConfirmPass: false,
             checkConditions: true,
         })
@@ -63,21 +54,10 @@ export default class Register extends Component {
     resetAlerts() {
         this.setState({
             alertUserName: false,
-            alertEmail: false,
-            alertConfirmEmail: false,
             alertPassword: false,
             alertConfirmPass: false,
             checkConditions: true,
         })
-    }
-
-    checkEmail() {
-        if (this.state.email.valueOf() !== this.state.confirmEmail.valueOf()) {
-            this.setState({
-                alertConfirmEmail: true,
-                checkConditions: false
-            })
-        }
     }
 
     checkPassword() {
@@ -102,19 +82,15 @@ export default class Register extends Component {
         e.preventDefault();
 
         await this.resetAlerts();
-        await this.checkEmail();
         await this.checkPassword();
         await this.checkLengthPassword();
 
         const user = {
             username: this.state.username,
-            email: this.state.email,
             password: bcrypt.hashSync(this.state.password, SALT_ROUNDS),
-            contact: this.state.contact,
             usertype: this.state.usertype,
-            recepciones: 0,
-            trabajos: 0,
-            pedidos: 0,
+            recepciones: [],
+            impresiones: [],
         }
 
         if (this.state.checkConditions) {
@@ -122,17 +98,13 @@ export default class Register extends Component {
             await axios.post(BASE_URL_API + '/usuarios/add', user)
                 .then(res => {
                     //console.log(res);
-                    window.location = '/';
+                    this.props.history.push('');
                 })
                 .catch(err => {
 
                     if (err.response.status === 401) {
                         this.setState({
                             alertUserName: true,
-                        })
-                    } else if (err.response.status === 403) {
-                        this.setState({
-                            alertEmail: true,
                         })
                     } else {
                         console.log(err);
@@ -145,7 +117,7 @@ export default class Register extends Component {
 
     render() {
         return (
-            <Container className='min-vh-75' >
+            <Container className='min-vh-75 mt-5 mb-4' >
                 <Row className="justify-content-center">
                     <ListGroup className='w-75'>
                         <ListGroupItem>
@@ -162,22 +134,6 @@ export default class Register extends Component {
                                         </Col>
                                     </Form.Group>
                                     <Alert transition={false} show={this.state.alertUserName} variant='danger'>Este nombre de usuario ya fue registrado</Alert>
-
-                                    <Form.Group as={Row} controlId="formEmail">
-                                        <Form.Label column xs="auto">Email</Form.Label>
-                                        <Col>
-                                            <Form.Control name='email' type="email" required onChange={this.onChangeValue} />
-                                        </Col>
-                                    </Form.Group>
-                                    <Alert transition={false} show={this.state.alertEmail} variant='danger'>Este email ya fue registrado</Alert>
-
-                                    <Form.Group as={Row} controlId="formConfirmEmail">
-                                        <Form.Label column xs="auto">Confirmar email</Form.Label>
-                                        <Col>
-                                            <Form.Control name='confirmEmail' type="email" required onChange={this.onChangeValue} />
-                                        </Col>
-                                    </Form.Group>
-                                    <Alert transition={false} show={this.state.alertConfirmEmail} variant='danger'>El email no fue correctamente confirmado</Alert>
 
                                     <Form.Group as={Row} controlId="formPass">
                                         <Form.Label column xs="auto">Contraseña</Form.Label>
@@ -202,9 +158,9 @@ export default class Register extends Component {
                                         <Form.Label column xs="auto">Tipo de Usuario Test</Form.Label>
                                         <Col>
                                             <Form.Control name='usertype' as="select" required onChange={this.onChangeValue}>
-                                                <option>TeleMinion</option>
-                                                <option>CopyMinion</option>
-                                                <option>Cliente</option>
+                                                <option>Admin</option>
+                                                <option>Recepcionista</option>
+                                                <option>Operario</option>
                                             </Form.Control>
                                         </Col>
                                     </Form.Group>

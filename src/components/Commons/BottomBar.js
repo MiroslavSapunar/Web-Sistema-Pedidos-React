@@ -6,7 +6,7 @@ export default class BottomBar extends Component {
 
     render() {
         return (
-            <Navbar bg="dark" variant="dark" expand="sm" sticky="bottom" >
+            <Navbar bg="dark" variant="dark" expand="sm" fixed="bottom" >
                 <Container fluid>
                     <Col className='d-flex justify-content-center' >
                         <Row className='justify-content-center align-items-center'>

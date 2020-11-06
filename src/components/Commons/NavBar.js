@@ -5,7 +5,7 @@ export default class NavBar extends Component {
 
     render() {
         return (
-            <Navbar bg="dark" variant="dark" expand="xl" sticky="top">
+            <Navbar bg="dark" variant="dark" expand="md" sticky="top">
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">

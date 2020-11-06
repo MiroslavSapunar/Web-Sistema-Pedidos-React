@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button, Row, ListGroup, ListGroupItem, Container, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { setSessionCookie } from "../../sessions";
+import { setSessionCookie } from "../../utils/sessions";
 
 import axios from 'axios';
 
@@ -92,8 +92,8 @@ export default class Login extends Component {
                 <Row className="justify-content-center">
                     <ListGroup className='mt-3 mb-5 w-75'>
                         <ListGroupItem className='justify-content-center'>
-                            <h1 className='text-center font-weight-bold mb-n1 text-break'>Fotocopiadora CEI</h1>
-                            <h3 className='text-center mb-2 text-center'>Sistema de monitoreo pedidos online</h3>
+                            <h2 className='text-center font-weight-bold mb-n1 text-break'>Fotocopiadora CEI</h2>
+                            <h3 className='text-center mb-4 text-center'>Sistema de gestión de pedidos online</h3>
                             <h2 className="text-center mb-3 font-weight-bold">Bienvenid@</h2>
                             <Row className="justify-content-center">
 

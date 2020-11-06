@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {Button} from 'react-bootstrap';
+import {Button, Container, Row} from 'react-bootstrap';
+import { MdWarning, MdAttachMoney } from 'react-icons/md';
+import { FaShippingFast } from 'react-icons/fa';
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 const COMP_URL = '/pedidos/';
+
 
 export default class RowOrder extends Component {
 
@@ -114,13 +117,21 @@ export default class RowOrder extends Component {
                 <td>{'$ ' + this.state.costoTotal}</td>
                 <td className="bg-warning">{this.state.estado}</td>
                 <td>
-                    <Button variant="danger" size="sm" 
+                    <Container fluid={true}>
+                    <Row className='justify-content-around'>
+                        <Button variant="danger" size="sm" 
                         onClick={() => { this.actualizarEstado(this.state.id, 'Reportado')}}
-                        disabled={this.state.enviado}>Reportar</Button> | <Button size="sm" 
+                        disabled={this.state.enviado}> <MdWarning size={25} style={{ fill: 'white' }}/>  </Button>
+                        
+                        <Button size="sm" 
                         onClick={() => { this.actualizarEstado(this.state.id, 'Pagado')}} 
-                        disabled={this.state.pagado} >Pagar</Button> | <Button variant="success" size="sm" 
+                        disabled={this.state.pagado} > <MdAttachMoney size={25} style={{ fill: 'white' }}/> </Button>
+                        
+                        <Button variant="success" size="sm" 
                         onClick={() => { this.actualizarEstado(this.state.id, 'Enviado')}} 
-                        disabled={this.state.enviado}>Enviar</Button>
+                        disabled={this.state.enviado}> <FaShippingFast size={25} style={{ fill: 'white' }}/> </Button>
+                    </Row>
+                    </Container>
                 </td>
         </tr>
         );
